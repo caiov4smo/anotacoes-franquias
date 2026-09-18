@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Inadimplência & Tags - V4 Company</title>
+    <!-- Fonte Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --bg-color: #0a0a0a;
+            --panel-bg: #121212;
+            --card-bg: #181818;
+            --text-main: #ffffff;
+            --text-muted: #8c8c8c;
+            --v4-red: #E50914;
+            --v4-red-glow: rgba(229, 9, 20, 0.4);
+            --silver: #E0E0E0;
+            --bronze: #CD7F32;
+            --yellow-gold: #FFD700;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* HEADER */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            flex-shrink: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            background: #000000;
+            border-bottom: 2px solid var(--v4-red);
+            box-shadow: 0 4px 20px rgba(229, 9, 20, 0.15);
+        }
+
+        .header-brand h1 {
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: var(--v4-red);
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+        }
+
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .v4-select {
+            background-color: #1a1a1a;
+            color: #ffffff;
+            border: 1px solid var(--v4-red);
+            padding: 0.55rem 2.2rem 0.55rem 1rem;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            outline: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 5px rgba(229, 9, 20, 0.1);
+            appearance: none;
+            background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'><path fill='%23ffffff' d='M1.41 0L6 4.58 10.59 0 12 1.41l-6 6-6-6z'/></svg>");
+            background-repeat: no-repeat;
+            background-position: right 0.8rem center;
+            background-size: 10px;
+        }
+
+        .v4-select:focus, .v4-select:hover {
+            box-shadow: 0 0 10px var(--v4-red-glow);
+            border-color: #ff1a26;
+        }
+
+        /* GRÁFICOS */
+        .charts-section {
+            padding: 1rem 2rem 0.5rem 2rem;
+            flex-shrink: 0;
+        }
+
+        .charts-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.2rem;
+            background-color: var(--panel-bg);
+            padding: 1rem 1.2rem;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            min-height: 270px;
+        }
+
+        .chart-card {
+            background-color: var(--card-bg);
+            border-radius: 6px;
+            padding: 0.8rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            position: relative;
+        }
+
+        .chart-title {
+            font-size: 0.85rem;
+            font-weight: 800;
+            color: #ffffff;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.5rem;
+            text-align: center;
+        }
+
+        .chart-wrapper {
+            position: relative;
+            width: 100%;
+            height: 190px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* TABELA DE DADOS */
+        .table-section {
+            flex: 1;
+            padding: 0.8rem 2rem 1.2rem 2rem;
+            overflow-y: auto;
+        }
+
+        .table-section::-webkit-scrollbar {
+            width: 8px;
+        }
+        .table-section::-webkit-scrollbar-track {
+            background: var(--bg-color);
+        }
+        .table-section::-webkit-scrollbar-thumb {
+            background: #2a2a2a;
+            border-radius: 4px;
+        }
+        .table-section::-webkit-scrollbar-thumb:hover {
+            background: var(--v4-red);
+        }
+
+        .table-wrapper {
+            width: 100%;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 6px;
+        }
+
+        thead {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            background-color: var(--bg-color);
+        }
+
+        th {
+            padding: 0.5rem 0.7rem;
+            text-align: right;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            font-weight: 700;
+            color: var(--text-muted);
+            white-space: nowrap;
+        }
+
+        th.sortable {
+            cursor: pointer;
+            user-select: none;
+        }
+
+        th span {
+            background-color: #171717;
+            padding: 0.35rem 0.6rem;
+            border-radius: 4px;
+            border-bottom: 2px solid var(--v4-red);
+            color: #ffffff;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            transition: background-color 0.2s;
+        }
+
+        th.sortable:hover span {
+            background-color: #262626;
+            border-bottom-color: #ff1a26;
+        }
+
+        .sort-icon {
+            font-style: normal;
+            font-size: 0.7rem;
+            opacity: 0.4;
+        }
+
+        th.active-sort .sort-icon {
+            opacity: 1;
+            color: var(--v4-red);
+        }
+
+        th:nth-child(1), th:nth-child(2) { text-align: left; }
+
+        tr {
+            background-color: var(--panel-bg);
+            transition: all 0.2s ease;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        tr:hover {
+            background-color: #1a1a1a;
+            transform: scale(1.001);
+        }
+
+        tr.selected-row {
+            outline: 2px solid var(--yellow-gold) !important;
+            background: linear-gradient(90deg, rgba(255, 215, 0, 0.15) 0%, rgba(30, 28, 10, 0.95) 100%) !important;
+            box-shadow: 0 0 12px rgba(255, 215, 0, 0.3) !important;
+        }
+
+        td {
+            padding: 0.6rem 0.8rem;
+            font-size: 0.85rem;
+            text-align: right;
+            font-weight: 500;
+            color: #e5e5e5;
+            white-space: nowrap;
+        }
+
+        td:nth-child(1), td:nth-child(2) { text-align: left; }
+
+        td.rank-col { 
+            font-weight: 800; 
+            color: var(--text-muted); 
+            text-align: center;
+            font-size: 0.95rem;
+            width: 60px;
+        }
+
+        td.regional-col, td.horizonte-col, td.hunter-col {
+            font-weight: 600;
+            color: #a0a0a0;
+            text-align: center;
+        }
+        
+        td.unit-col {
+            font-weight: 700;
+            color: #ffffff;
+            text-transform: uppercase;
+        }
+
+        .rank-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 26px;
+            border-radius: 4px;
+            font-weight: 900;
+            font-size: 0.9rem;
+        }
+
+        tr.top-rank-1 .rank-badge { background: var(--v4-red); color: #fff; }
+        tr.top-rank-2 .rank-badge { background: var(--silver); color: #111; }
+        tr.top-rank-3 .rank-badge { background: var(--bronze); color: #fff; }
+
+        @media (max-width: 1024px) {
+            body { overflow: auto; height: auto; }
+            .charts-container { grid-template-columns: 1fr; }
+            header { flex-direction: column; align-items: flex-start; gap: 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- CABEÇALHO DA PÁGINA -->
+    <header>
+        <div class="header-brand">
+            <h1 id="page-main-title">Inadimplência & Tags</h1>
+        </div>
+        <div class="header-controls">
+            <!-- FILTRO HUNTER -->
+            <select id="hunter-filter" class="v4-select">
+                <option value="all">Todos os Hunters</option>
+            </select>
+
+            <!-- FILTRO REGIONAL -->
+            <select id="regional-filter" class="v4-select">
+                <option value="all">Todas as Regionais</option>
+            </select>
+
+            <!-- FILTRO HORIZONTE -->
+            <select id="horizonte-filter" class="v4-select">
+                <option value="all">Todos os Horizontes</option>
+            </select>
+        </div>
+    </header>
+
+    <!-- GRÁFICOS DE PIZZA -->
+    <section class="charts-section">
+        <div class="charts-container">
+            <!-- GRÁFICO 1: DISTRIBUIÇÃO DE TAGS -->
+            <div class="chart-card">
+                <div class="chart-title">Distribuição de Tags</div>
+                <div class="chart-wrapper">
+                    <canvas id="tagsChart"></canvas>
+                </div>
+            </div>
+
+            <!-- GRÁFICO 2: ANOTAÇÕES VENCIDAS -->
+            <div class="chart-card">
+                <div class="chart-title">Anotações Vencidas vs Total Inads</div>
+                <div class="chart-wrapper">
+                    <canvas id="vencidasChart"></canvas>
+                </div>
+            </div>
+
+            <!-- GRÁFICO 3: EM BRANCO VS PREENCHIDOS -->
+            <div class="chart-card">
+                <div class="chart-title">Em Branco vs Com Tag</div>
+                <div class="chart-wrapper">
+                    <canvas id="emBrancoChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TABELA DE DADOS -->
+    <section class="table-section">
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th class="sortable" data-col="totalInadsNum"><span>Rank <i class="sort-icon">↕</i></span></th>
+                        <th class="sortable" data-col="franchiseClean"><span>Franquia <i class="sort-icon">↕</i></span></th>
+                        <th class="sortable" data-col="totalInadsNum"><span>Total Inads <i class="sort-icon">↕</i></span></th>
+                        <th class="sortable" data-col="anotacoesVencidasNum"><span>Anotações Vencidas <i class="sort-icon">↕</i></span></th>
+                        <th class="sortable" data-col="emBrancoNum"><span>Em Branco <i class="sort-icon">↕</i></span></th>
+                        <th class="sortable" data-col="criticalCustomerNum"><span>Crítico <i class="sort-icon">↕</i></span></th>
+                        <th class="sortable" data-col="inCollectionNum"><span>Em Cobrança <i class="sort-icon">↕</i></span></th>
+                        <th class="sortable" data-col="hunter"><span>Hunter <i class="sort-icon">↕</i></span></th>
+                        <th class="sortable" data-col="regional"><span>Regional <i class="sort-icon">↕</i></span></th>
+                        <th class="sortable" data-col="horizonteSigla"><span>Horizonte <i class="sort-icon">↕</i></span></th>
+                    </tr>
+                </thead>
+                <tbody id="table-body">
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <script>
+        let allData = [];
+        let currentSortCol = 'totalInadsNum';
+        let currentSortDir = 'desc';
+        let selectedFranchiseName = null;
+
+        let chart1Instance = null;
+        let chart2Instance = null;
+        let chart3Instance = null;
+
+        // AUXILIARES DE PARSE
+        function parseBrInt(val) {
+            if (val === undefined || val === null || val === '') return 0;
+            if (typeof val === 'number') return val;
+            let s = val.toString().replace(/\./g, '').trim();
+            let n = parseInt(s, 10);
+            return isNaN(n) ? 0 : n;
+        }
+
+        function cleanUnitName(name) {
+            if (!name) return '';
+            return name.replace(/^V4\s+Company\s+/i, '').replace(/^V4\s+/i, '').trim();
+        }
+
+        function getHorizonteSigla(str) {
+            if (!str || str === 'Sem preenchimento') return 'N/A';
+            let parts = str.toString().trim().split(' ');
+            return parts[0].toUpperCase();
+        }
+
+        // CARREGAR DADOS DO JSON
+        async function loadData() {
+            try {
+                const response = await fetch('dados.json');
+                if (!response.ok) throw new Error('Erro ao carregar dados.json');
+                const rawData = await response.json();
+
+                allData = rawData.map(item => {
+                    return {
+                        ...item,
+                        franchiseClean: cleanUnitName(item.franchise),
+                        totalInadsNum: parseBrInt(item.total_inads),
+                        anotacoesVencidasNum: parseBrInt(item.anotacoes_vencidas),
+                        emBrancoNum: parseBrInt(item.em_branco),
+                        criticalCustomerNum: parseBrInt(item.critical_customer),
+                        inCollectionNum: parseBrInt(item.in_collection),
+                        inProgressNum: parseBrInt(item.in_progress),
+                        negotiatedNum: parseBrInt(item.negotiated),
+                        pendingActionNum: parseBrInt(item.pending_action),
+                        churnFirstDayNum: parseBrInt(item.churn_first_day),
+                        duplicateNum: parseBrInt(item.duplicate),
+                        horizonteSigla: getHorizonteSigla(item.horizonte),
+                        hunter: item.hunter || 'Não Atribuído',
+                        regional: item.regional || 'N/A'
+                    };
+                });
+
+                populateFilters(allData);
+                setupSortHeaders();
+                setupRowSelection();
+                applyFilterAndSort();
+            } catch (err) {
+                console.error(err);
+                document.getElementById('table-body').innerHTML = `<tr><td colspan="10" style="text-align:center; color:var(--v4-red);">Erro ao carregar o arquivo 'dados.json'. Certifique-se de que ele está presente na raiz.</td></tr>`;
+            }
+        }
+
+        // POPULAR FILTROS DROPDOWN
+        function populateFilters(data) {
+            const hunterFilter = document.getElementById('hunter-filter');
+            const regionalFilter = document.getElementById('regional-filter');
+            const horizonteFilter = document.getElementById('horizonte-filter');
+
+            const hunters = [...new Set(data.map(i => i.hunter).filter(h => h && h !== 'Não Atribuído'))].sort();
+            hunters.forEach(h => {
+                const opt = document.createElement('option');
+                opt.value = h;
+                opt.textContent = h;
+                hunterFilter.appendChild(opt);
+            });
+
+            const regionais = [...new Set(data.map(i => i.regional).filter(r => r && r !== 'N/A'))].sort();
+            regionais.forEach(r => {
+                const opt = document.createElement('option');
+                opt.value = r;
+                opt.textContent = r;
+                regionalFilter.appendChild(opt);
+            });
+
+            const horizontes = [...new Set(data.map(i => i.horizonteSigla).filter(h => h && h !== 'N/A'))].sort();
+            horizontes.forEach(h => {
+                const opt = document.createElement('option');
+                opt.value = h;
+                opt.textContent = h;
+                horizonteFilter.appendChild(opt);
+            });
+
+            [hunterFilter, regionalFilter, horizonteFilter].forEach(el => {
+                el.addEventListener('change', () => {
+                    selectedFranchiseName = null; // reseta seleção por linha
+                    applyFilterAndSort();
+                });
+            });
+        }
+
+        // ORDENAÇÃO POR COLUNA
+        function setupSortHeaders() {
+            document.querySelectorAll('th.sortable').forEach(th => {
+                th.addEventListener('click', () => {
+                    const col = th.getAttribute('data-col');
+                    if (currentSortCol === col) {
+                        currentSortDir = currentSortDir === 'asc' ? 'desc' : 'asc';
+                    } else {
+                        currentSortCol = col;
+                        currentSortDir = 'desc';
+                    }
+                    applyFilterAndSort();
+                });
+            });
+        }
+
+        // SELEÇÃO POR CLIQUE NA LINHA DA TABELA
+        function setupRowSelection() {
+            document.getElementById('table-body').addEventListener('click', e => {
+                const tr = e.target.closest('tr');
+                if (!tr) return;
+                const fName = tr.getAttribute('data-franchise');
+                if (!fName) return;
+
+                if (selectedFranchiseName === fName) {
+                    selectedFranchiseName = null;
+                } else {
+                    selectedFranchiseName = fName;
+                }
+                applyFilterAndSort();
+            });
+        }
+
+        // APLICAR FILTROS, ORDENAÇÃO E ATUALIZAR GRÁFICOS
+        function applyFilterAndSort() {
+            const hVal = document.getElementById('hunter-filter').value;
+            const rVal = document.getElementById('regional-filter').value;
+            const hzVal = document.getElementById('horizonte-filter').value;
+            const titleEl = document.getElementById('page-main-title');
+
+            let filtered = allData;
+
+            if (hVal !== 'all') filtered = filtered.filter(i => i.hunter === hVal);
+            if (rVal !== 'all') filtered = filtered.filter(i => i.regional === rVal);
+            if (hzVal !== 'all') filtered = filtered.filter(i => i.horizonteSigla === hzVal);
+
+            if (selectedFranchiseName) {
+                const exists = filtered.some(i => i.franchiseClean === selectedFranchiseName);
+                if (!exists) selectedFranchiseName = null;
+            }
+
+            // Atualizar Título
+            if (selectedFranchiseName) {
+                titleEl.textContent = `TAGS: ${selectedFranchiseName}`;
+            } else if (hVal !== 'all') {
+                titleEl.textContent = `INADIMPLÊNCIA: ${hVal.toUpperCase()}`;
+            } else if (rVal !== 'all') {
+                titleEl.textContent = `INADIMPLÊNCIA: REGIONAL ${rVal}`;
+            } else if (hzVal !== 'all') {
+                titleEl.textContent = `INADIMPLÊNCIA: HORIZONTE ${hzVal}`;
+            } else {
+                titleEl.textContent = 'INADIMPLÊNCIA & TAGS';
+            }
+
+            // Conjunto de dados para os gráficos (Se uma franquia for clicada, foca nela)
+            let chartDataset = filtered;
+            if (selectedFranchiseName) {
+                chartDataset = allData.filter(i => i.franchiseClean === selectedFranchiseName);
+            }
+
+            updateCharts(chartDataset);
+
+            // Ordenar tabela
+            const sorted = [...filtered].sort((a, b) => {
+                let valA = a[currentSortCol];
+                let valB = b[currentSortCol];
+
+                if (typeof valA === 'string') {
+                    return currentSortDir === 'asc' ? valA.localeCompare(valB) : valB.localeCompare(valA);
+                }
+                return currentSortDir === 'asc' ? valA - valB : valB - valA;
+            });
+
+            // Indicadores de cabeçalho
+            document.querySelectorAll('th.sortable').forEach(th => {
+                const col = th.getAttribute('data-col');
+                const icon = th.querySelector('.sort-icon');
+                if (col === currentSortCol) {
+                    th.classList.add('active-sort');
+                    icon.textContent = currentSortDir === 'asc' ? '▲' : '▼';
+                } else {
+                    th.classList.remove('active-sort');
+                    icon.textContent = '↕';
+                }
+            });
+
+            renderTable(sorted);
+        }
+
+        // RENDERIZAR / ATUALIZAR GRÁFICOS
+        function updateCharts(data) {
+            // Totais consolidados das Tags
+            const totals = data.reduce((acc, curr) => {
+                acc.critical += curr.criticalCustomerNum;
+                acc.inCollection += curr.inCollectionNum;
+                acc.inProgress += curr.inProgressNum;
+                acc.negotiated += curr.negotiatedNum;
+                acc.pending += curr.pendingActionNum;
+                acc.churn1st += curr.churnFirstDayNum;
+                acc.duplicate += curr.duplicateNum;
+
+                acc.totalInads += curr.totalInadsNum;
+                acc.anotacoesVencidas += curr.anotacoesVencidasNum;
+                acc.emBranco += curr.emBrancoNum;
+                return acc;
+            }, {
+                critical: 0, inCollection: 0, inProgress: 0, negotiated: 0,
+                pending: 0, churn1st: 0, duplicate: 0,
+                totalInads: 0, anotacoesVencidas: 0, emBranco: 0
+            });
+
+            const commonOptions = {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'right',
+                        labels: { color: '#ffffff', font: { size: 10, family: 'Inter' }, boxWidth: 12 }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                let label = context.label || '';
+                                let value = context.raw || 0;
+                                let total = context.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
+                                let pct = total > 0 ? ((value / total) * 100).toFixed(1) + '%' : '0%';
+                                return ` ${label}: ${value.toLocaleString('pt-BR')} (${pct})`;
+                            }
+                        }
+                    }
+                }
+            };
+
+            // GRÁFICO 1: Tags
+            const ctx1 = document.getElementById('tagsChart').getContext('2d');
+            if (chart1Instance) chart1Instance.destroy();
+            chart1Instance = new Chart(ctx1, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Crítico', 'Em Cobrança', 'Em Andamento', 'Negociado', 'Ação Pendente', 'Churn 1º Dia', 'Duplicado'],
+                    datasets: [{
+                        data: [
+                            totals.critical, totals.inCollection, totals.inProgress, 
+                            totals.negotiated, totals.pending, totals.churn1st, totals.duplicate
+                        ],
+                        backgroundColor: [
+                            '#E50914', '#FF9800', '#2196F3', '#4CAF50', '#9C27B0', '#D32F2F', '#607D8B'
+                        ],
+                        borderWidth: 1,
+                        borderColor: '#121212'
+                    }]
+                },
+                options: commonOptions
+            });
+
+            // GRÁFICO 2: Anotações Vencidas vs Demais
+            const demaisInads = Math.max(0, totals.totalInads - totals.anotacoesVencidas);
+            const ctx2 = document.getElementById('vencidasChart').getContext('2d');
+            if (chart2Instance) chart2Instance.destroy();
+            chart2Instance = new Chart(ctx2, {
+                type: 'pie',
+                data: {
+                    labels: ['Anotações Vencidas', 'Demais Inadimplências'],
+                    datasets: [{
+                        data: [totals.anotacoesVencidas, demaisInads],
+                        backgroundColor: ['#E50914', '#2A2A2A'],
+                        borderWidth: 1,
+                        borderColor: '#121212'
+                    }]
+                },
+                options: commonOptions
+            });
+
+            // GRÁFICO 3: Em Branco vs Com Tag
+            const comTag = Math.max(0, totals.totalInads - totals.emBranco);
+            const ctx3 = document.getElementById('emBrancoChart').getContext('2d');
+            if (chart3Instance) chart3Instance.destroy();
+            chart3Instance = new Chart(ctx3, {
+                type: 'pie',
+                data: {
+                    labels: ['Em Branco', 'Com Tag/Anotação'],
+                    datasets: [{
+                        data: [totals.emBranco, comTag],
+                        backgroundColor: ['#FFD700', '#1E88E5'],
+                        borderWidth: 1,
+                        borderColor: '#121212'
+                    }]
+                },
+                options: commonOptions
+            });
+        }
+
+        // RENDERIZAR TABELA
+        function renderTable(data) {
+            const tableBody = document.getElementById('table-body');
+            let html = '';
+
+            if (data.length === 0) {
+                tableBody.innerHTML = '<tr><td colspan="10" style="text-align:center;">Nenhuma franquia encontrada.</td></tr>';
+                return;
+            }
+
+            data.forEach((row, index) => {
+                const rank = index + 1;
+                let rankClass = '';
+                let rankDisplay = `${rank}º`;
+
+                if (rank === 1) { rankClass = 'top-rank-1'; rankDisplay = `<span class="rank-badge">${rank}º</span>`; }
+                else if (rank === 2) { rankClass = 'top-rank-2'; rankDisplay = `<span class="rank-badge">${rank}º</span>`; }
+                else if (rank === 3) { rankClass = 'top-rank-3'; rankDisplay = `<span class="rank-badge">${rank}º</span>`; }
+
+                const selectedClass = (row.franchiseClean === selectedFranchiseName) ? 'selected-row' : '';
+
+                html += `
+                    <tr class="${rankClass} ${selectedClass}" data-franchise="${row.franchiseClean}">
+                        <td class="rank-col">${rankDisplay}</td>
+                        <td class="unit-col" title="${row.franchiseClean}">${row.franchiseClean}</td>
+                        <td style="font-weight: 800; color: #fff;">${row.totalInadsNum.toLocaleString('pt-BR')}</td>
+                        <td style="color: #ff5252;">${row.anotacoesVencidasNum.toLocaleString('pt-BR')}</td>
+                        <td style="color: #ffd700;">${row.emBrancoNum.toLocaleString('pt-BR')}</td>
+                        <td>${row.criticalCustomerNum.toLocaleString('pt-BR')}</td>
+                        <td>${row.inCollectionNum.toLocaleString('pt-BR')}</td>
+                        <td class="hunter-col">${row.hunter}</td>
+                        <td class="regional-col">${row.regional}</td>
+                        <td class="horizonte-col">${row.horizonteSigla}</td>
+                    </tr>
+                `;
+            });
+
+            tableBody.innerHTML = html;
+        }
+
+        document.addEventListener('DOMContentLoaded', loadData);
+    </script>
+</body>
+</html>
