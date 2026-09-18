@@ -17,6 +17,7 @@
             --text-muted: #8c8c8c;
             --v4-red: #E50914;
             --v4-red-glow: rgba(229, 9, 20, 0.4);
+            --v4-green: #00E676;
             --silver: #E0E0E0;
             --bronze: #CD7F32;
             --yellow-gold: #FFD700;
@@ -116,7 +117,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: space-between;
+            justify-content: flex-start;
             border: 1px solid rgba(255, 255, 255, 0.03);
             position: relative;
         }
@@ -129,12 +130,13 @@
             letter-spacing: 0.5px;
             margin-bottom: 0.5rem;
             text-align: center;
+            width: 100%;
         }
 
         .chart-wrapper {
             position: relative;
             width: 100%;
-            height: 190px;
+            height: 200px;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -147,23 +149,12 @@
             overflow-y: auto;
         }
 
-        .table-section::-webkit-scrollbar {
-            width: 8px;
-        }
-        .table-section::-webkit-scrollbar-track {
-            background: var(--bg-color);
-        }
-        .table-section::-webkit-scrollbar-thumb {
-            background: #2a2a2a;
-            border-radius: 4px;
-        }
-        .table-section::-webkit-scrollbar-thumb:hover {
-            background: var(--v4-red);
-        }
+        .table-section::-webkit-scrollbar { width: 8px; }
+        .table-section::-webkit-scrollbar-track { background: var(--bg-color); }
+        .table-section::-webkit-scrollbar-thumb { background: #2a2a2a; border-radius: 4px; }
+        .table-section::-webkit-scrollbar-thumb:hover { background: var(--v4-red); }
 
-        .table-wrapper {
-            width: 100%;
-        }
+        .table-wrapper { width: 100%; }
 
         table {
             width: 100%;
@@ -188,10 +179,7 @@
             white-space: nowrap;
         }
 
-        th.sortable {
-            cursor: pointer;
-            user-select: none;
-        }
+        th.sortable { cursor: pointer; user-select: none; }
 
         th span {
             background-color: #171717;
@@ -216,12 +204,33 @@
             opacity: 0.4;
         }
 
-        th.active-sort .sort-icon {
-            opacity: 1;
-            color: var(--v4-red);
-        }
+        th.active-sort .sort-icon { opacity: 1; color: var(--v4-red); }
 
         th:nth-child(1), th:nth-child(2) { text-align: left; }
+        
+        /* Classes de Alinhamento Central */
+        th.text-center, td.text-center { text-align: center; }
+
+        /* Estilo do Dropdown dentro do cabeçalho da tabela */
+        .table-select {
+            background-color: transparent;
+            color: #fff;
+            border: none;
+            outline: none;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            cursor: pointer;
+            appearance: none;
+            padding-right: 14px;
+            background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 12 8'><path fill='%23ffffff' d='M1.41 0L6 4.58 10.59 0 12 1.41l-6 6-6-6z'/></svg>");
+            background-repeat: no-repeat;
+            background-position: right center;
+        }
+        .table-select option {
+            background-color: #1a1a1a;
+            color: #fff;
+        }
 
         tr {
             background-color: var(--panel-bg);
@@ -230,10 +239,7 @@
             cursor: pointer;
         }
 
-        tr:hover {
-            background-color: #1a1a1a;
-            transform: scale(1.001);
-        }
+        tr:hover { background-color: #1a1a1a; transform: scale(1.001); }
 
         tr.selected-row {
             outline: 2px solid var(--yellow-gold) !important;
@@ -263,7 +269,6 @@
         td.regional-col, td.horizonte-col, td.hunter-col {
             font-weight: 600;
             color: #a0a0a0;
-            text-align: center;
         }
         
         td.unit-col {
@@ -296,7 +301,7 @@
 </head>
 <body>
 
-    <!-- CABEÇALHO DA PÁGINA -->
+    <!-- CABEÇALHO -->
     <header>
         <div class="header-brand">
             <h1 id="page-main-title">Inadimplência & Tags</h1>
@@ -319,10 +324,10 @@
         </div>
     </header>
 
-    <!-- GRÁFICOS DE PIZZA -->
+    <!-- GRÁFICOS -->
     <section class="charts-section">
         <div class="charts-container">
-            <!-- GRÁFICO 1: DISTRIBUIÇÃO DE TAGS -->
+            <!-- GRÁFICO 1 -->
             <div class="chart-card">
                 <div class="chart-title">Distribuição de Tags</div>
                 <div class="chart-wrapper">
@@ -330,7 +335,7 @@
                 </div>
             </div>
 
-            <!-- GRÁFICO 2: ANOTAÇÕES VENCIDAS -->
+            <!-- GRÁFICO 2 -->
             <div class="chart-card">
                 <div class="chart-title">Anotações Vencidas vs Total Inads</div>
                 <div class="chart-wrapper">
@@ -338,7 +343,7 @@
                 </div>
             </div>
 
-            <!-- GRÁFICO 3: EM BRANCO VS PREENCHIDOS -->
+            <!-- GRÁFICO 3 -->
             <div class="chart-card">
                 <div class="chart-title">Em Branco vs Com Tag</div>
                 <div class="chart-wrapper">
@@ -348,7 +353,7 @@
         </div>
     </section>
 
-    <!-- TABELA DE DADOS -->
+    <!-- TABELA -->
     <section class="table-section">
         <div class="table-wrapper">
             <table>
@@ -359,11 +364,27 @@
                         <th class="sortable" data-col="totalInadsNum"><span>Total Inads <i class="sort-icon">↕</i></span></th>
                         <th class="sortable" data-col="anotacoesVencidasNum"><span>Anotações Vencidas <i class="sort-icon">↕</i></span></th>
                         <th class="sortable" data-col="emBrancoNum"><span>Em Branco <i class="sort-icon">↕</i></span></th>
-                        <th class="sortable" data-col="criticalCustomerNum"><span>Crítico <i class="sort-icon">↕</i></span></th>
-                        <th class="sortable" data-col="inCollectionNum"><span>Em Cobrança <i class="sort-icon">↕</i></span></th>
-                        <th class="sortable" data-col="hunter"><span>Hunter <i class="sort-icon">↕</i></span></th>
-                        <th class="sortable" data-col="regional"><span>Regional <i class="sort-icon">↕</i></span></th>
-                        <th class="sortable" data-col="horizonteSigla"><span>Horizonte <i class="sort-icon">↕</i></span></th>
+                        
+                        <!-- Coluna Dinâmica de TAGs (com Select embutido) -->
+                        <th class="sortable" data-col="dynamicTag">
+                            <span style="padding-left: 0.4rem; padding-right: 0.4rem;">
+                                <select id="dynamic-tag-select" class="table-select">
+                                    <option value="criticalCustomerNum">Crítico</option>
+                                    <option value="inCollectionNum">Em Cobrança</option>
+                                    <option value="inProgressNum">Em Andamento</option>
+                                    <option value="negotiatedNum">Negociado</option>
+                                    <option value="pendingActionNum">Ação Pendente</option>
+                                    <option value="churnFirstDayNum">Churn 1º Dia</option>
+                                    <option value="duplicateNum">Duplicado</option>
+                                </select>
+                                <i class="sort-icon">↕</i>
+                            </span>
+                        </th>
+                        
+                        <!-- Colunas alinhadas ao centro -->
+                        <th class="sortable text-center" data-col="hunter"><span>Hunter <i class="sort-icon">↕</i></span></th>
+                        <th class="sortable text-center" data-col="regional"><span>Regional <i class="sort-icon">↕</i></span></th>
+                        <th class="sortable text-center" data-col="horizonteSigla"><span>Horizonte <i class="sort-icon">↕</i></span></th>
                     </tr>
                 </thead>
                 <tbody id="table-body">
@@ -382,7 +403,7 @@
         let chart2Instance = null;
         let chart3Instance = null;
 
-        // AUXILIARES DE PARSE
+        // AUXILIARES
         function parseBrInt(val) {
             if (val === undefined || val === null || val === '') return 0;
             if (typeof val === 'number') return val;
@@ -432,6 +453,7 @@
                 populateFilters(allData);
                 setupSortHeaders();
                 setupRowSelection();
+                setupDynamicColumn();
                 applyFilterAndSort();
             } catch (err) {
                 console.error(err);
@@ -439,7 +461,7 @@
             }
         }
 
-        // POPULAR FILTROS DROPDOWN
+        // POPULAR FILTROS DROPDOWN (CABEÇALHO)
         function populateFilters(data) {
             const hunterFilter = document.getElementById('hunter-filter');
             const regionalFilter = document.getElementById('regional-filter');
@@ -471,13 +493,28 @@
 
             [hunterFilter, regionalFilter, horizonteFilter].forEach(el => {
                 el.addEventListener('change', () => {
-                    selectedFranchiseName = null; // reseta seleção por linha
+                    selectedFranchiseName = null; 
                     applyFilterAndSort();
                 });
             });
         }
 
-        // ORDENAÇÃO POR COLUNA
+        // EVENTOS DA COLUNA DINÂMICA (SELECT NA TABELA)
+        function setupDynamicColumn() {
+            const selectEl = document.getElementById('dynamic-tag-select');
+            
+            // Impede que o clique no select ordene a coluna
+            selectEl.addEventListener('click', (e) => {
+                e.stopPropagation();
+            });
+
+            // Ao alterar a seleção, atualiza a tabela
+            selectEl.addEventListener('change', () => {
+                applyFilterAndSort();
+            });
+        }
+
+        // ORDENAÇÃO
         function setupSortHeaders() {
             document.querySelectorAll('th.sortable').forEach(th => {
                 th.addEventListener('click', () => {
@@ -493,7 +530,7 @@
             });
         }
 
-        // SELEÇÃO POR CLIQUE NA LINHA DA TABELA
+        // SELEÇÃO DA LINHA
         function setupRowSelection() {
             document.getElementById('table-body').addEventListener('click', e => {
                 const tr = e.target.closest('tr');
@@ -510,7 +547,7 @@
             });
         }
 
-        // APLICAR FILTROS, ORDENAÇÃO E ATUALIZAR GRÁFICOS
+        // FILTROS, ORDENAÇÃO E RENDERIZAÇÃO
         function applyFilterAndSort() {
             const hVal = document.getElementById('hunter-filter').value;
             const rVal = document.getElementById('regional-filter').value;
@@ -541,7 +578,6 @@
                 titleEl.textContent = 'INADIMPLÊNCIA & TAGS';
             }
 
-            // Conjunto de dados para os gráficos (Se uma franquia for clicada, foca nela)
             let chartDataset = filtered;
             if (selectedFranchiseName) {
                 chartDataset = allData.filter(i => i.franchiseClean === selectedFranchiseName);
@@ -549,10 +585,17 @@
 
             updateCharts(chartDataset);
 
+            // Identificar qual a chave da coluna dinâmica para ordenar corretamente
+            const dynamicTagValue = document.getElementById('dynamic-tag-select').value;
+            let sortKey = currentSortCol;
+            if (sortKey === 'dynamicTag') {
+                sortKey = dynamicTagValue;
+            }
+
             // Ordenar tabela
             const sorted = [...filtered].sort((a, b) => {
-                let valA = a[currentSortCol];
-                let valB = b[currentSortCol];
+                let valA = a[sortKey];
+                let valB = b[sortKey];
 
                 if (typeof valA === 'string') {
                     return currentSortDir === 'asc' ? valA.localeCompare(valB) : valB.localeCompare(valA);
@@ -560,7 +603,7 @@
                 return currentSortDir === 'asc' ? valA - valB : valB - valA;
             });
 
-            // Indicadores de cabeçalho
+            // Indicadores do header
             document.querySelectorAll('th.sortable').forEach(th => {
                 const col = th.getAttribute('data-col');
                 const icon = th.querySelector('.sort-icon');
@@ -573,12 +616,63 @@
                 }
             });
 
-            renderTable(sorted);
+            renderTable(sorted, dynamicTagValue);
         }
+
+        // PLUGIN DE LEGENDA CUSTOMIZADA PARA ADICIONAR "VALOR (XX,XX%)"
+        const customLegendCallback = function(chart) {
+            const data = chart.data;
+            if (data.labels.length && data.datasets.length) {
+                const total = data.datasets[0].data.reduce((a, b) => a + b, 0);
+                return data.labels.map((label, i) => {
+                    const meta = chart.getDatasetMeta(0);
+                    const style = meta.controller.getStyle(i);
+                    const value = data.datasets[0].data[i];
+                    // Duas casas decimais trocando ponto por vírgula
+                    const pct = total > 0 ? ((value / total) * 100).toFixed(2).replace('.', ',') + '%' : '0,00%';
+                    
+                    return {
+                        text: `${label}: ${value.toLocaleString('pt-BR')} (${pct})`,
+                        fillStyle: style.backgroundColor,
+                        strokeStyle: style.borderColor,
+                        lineWidth: style.borderWidth,
+                        hidden: isNaN(data.datasets[0].data[i]) || meta.data[i].hidden,
+                        index: i
+                    };
+                });
+            }
+            return [];
+        };
+
+        const commonChartOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'right',
+                    labels: { 
+                        color: '#ffffff', 
+                        font: { size: 10, family: 'Inter', weight: '500' }, 
+                        boxWidth: 12,
+                        generateLabels: customLegendCallback // Aciona a formatação de QTD e %
+                    }
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            let label = context.label || '';
+                            let value = context.raw || 0;
+                            let total = context.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
+                            let pct = total > 0 ? ((value / total) * 100).toFixed(2).replace('.', ',') + '%' : '0,00%';
+                            return ` ${label}: ${value.toLocaleString('pt-BR')} (${pct})`;
+                        }
+                    }
+                }
+            }
+        };
 
         // RENDERIZAR / ATUALIZAR GRÁFICOS
         function updateCharts(data) {
-            // Totais consolidados das Tags
             const totals = data.reduce((acc, curr) => {
                 acc.critical += curr.criticalCustomerNum;
                 acc.inCollection += curr.inCollectionNum;
@@ -597,28 +691,6 @@
                 pending: 0, churn1st: 0, duplicate: 0,
                 totalInads: 0, anotacoesVencidas: 0, emBranco: 0
             });
-
-            const commonOptions = {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        position: 'right',
-                        labels: { color: '#ffffff', font: { size: 10, family: 'Inter' }, boxWidth: 12 }
-                    },
-                    tooltip: {
-                        callbacks: {
-                            label: function(context) {
-                                let label = context.label || '';
-                                let value = context.raw || 0;
-                                let total = context.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
-                                let pct = total > 0 ? ((value / total) * 100).toFixed(1) + '%' : '0%';
-                                return ` ${label}: ${value.toLocaleString('pt-BR')} (${pct})`;
-                            }
-                        }
-                    }
-                }
-            };
 
             // GRÁFICO 1: Tags
             const ctx1 = document.getElementById('tagsChart').getContext('2d');
@@ -639,10 +711,10 @@
                         borderColor: '#121212'
                     }]
                 },
-                options: commonOptions
+                options: commonChartOptions
             });
 
-            // GRÁFICO 2: Anotações Vencidas vs Demais
+            // GRÁFICO 2: Anotações Vencidas (Vermelho) vs Demais (Verde)
             const demaisInads = Math.max(0, totals.totalInads - totals.anotacoesVencidas);
             const ctx2 = document.getElementById('vencidasChart').getContext('2d');
             if (chart2Instance) chart2Instance.destroy();
@@ -652,15 +724,15 @@
                     labels: ['Anotações Vencidas', 'Demais Inadimplências'],
                     datasets: [{
                         data: [totals.anotacoesVencidas, demaisInads],
-                        backgroundColor: ['#E50914', '#2A2A2A'],
+                        backgroundColor: ['#E50914', '#00E676'], // Vermelho e Verde
                         borderWidth: 1,
                         borderColor: '#121212'
                     }]
                 },
-                options: commonOptions
+                options: commonChartOptions
             });
 
-            // GRÁFICO 3: Em Branco vs Com Tag
+            // GRÁFICO 3: Em Branco (Vermelho) vs Com Tag (Verde)
             const comTag = Math.max(0, totals.totalInads - totals.emBranco);
             const ctx3 = document.getElementById('emBrancoChart').getContext('2d');
             if (chart3Instance) chart3Instance.destroy();
@@ -670,17 +742,17 @@
                     labels: ['Em Branco', 'Com Tag/Anotação'],
                     datasets: [{
                         data: [totals.emBranco, comTag],
-                        backgroundColor: ['#FFD700', '#1E88E5'],
+                        backgroundColor: ['#E50914', '#00E676'], // Vermelho e Verde
                         borderWidth: 1,
                         borderColor: '#121212'
                     }]
                 },
-                options: commonOptions
+                options: commonChartOptions
             });
         }
 
         // RENDERIZAR TABELA
-        function renderTable(data) {
+        function renderTable(data, dynamicTagKey) {
             const tableBody = document.getElementById('table-body');
             let html = '';
 
@@ -699,6 +771,9 @@
                 else if (rank === 3) { rankClass = 'top-rank-3'; rankDisplay = `<span class="rank-badge">${rank}º</span>`; }
 
                 const selectedClass = (row.franchiseClean === selectedFranchiseName) ? 'selected-row' : '';
+                
+                // Pegar o valor para exibir na coluna dinâmica baseada na seleção do cabeçalho
+                const dynamicTagValue = row[dynamicTagKey] || 0;
 
                 html += `
                     <tr class="${rankClass} ${selectedClass}" data-franchise="${row.franchiseClean}">
@@ -707,11 +782,14 @@
                         <td style="font-weight: 800; color: #fff;">${row.totalInadsNum.toLocaleString('pt-BR')}</td>
                         <td style="color: #ff5252;">${row.anotacoesVencidasNum.toLocaleString('pt-BR')}</td>
                         <td style="color: #ffd700;">${row.emBrancoNum.toLocaleString('pt-BR')}</td>
-                        <td>${row.criticalCustomerNum.toLocaleString('pt-BR')}</td>
-                        <td>${row.inCollectionNum.toLocaleString('pt-BR')}</td>
-                        <td class="hunter-col">${row.hunter}</td>
-                        <td class="regional-col">${row.regional}</td>
-                        <td class="horizonte-col">${row.horizonteSigla}</td>
+                        
+                        <!-- Coluna Dinâmica de TAG -->
+                        <td style="color: #92e0ff; font-weight: 700;">${dynamicTagValue.toLocaleString('pt-BR')}</td>
+
+                        <!-- Colunas alinhadas ao centro -->
+                        <td class="hunter-col text-center">${row.hunter}</td>
+                        <td class="regional-col text-center">${row.regional}</td>
+                        <td class="horizonte-col text-center">${row.horizonteSigla}</td>
                     </tr>
                 `;
             });
