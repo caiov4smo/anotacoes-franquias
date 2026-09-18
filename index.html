@@ -185,16 +185,15 @@
         }
 
         /* Definindo larguras de colunas */
-        th:nth-child(1) { width: 60px; } /* Rank */
-        th:nth-child(2) { width: 22%; }  /* Franquia - Diminuida para caber tudo */
+        th:nth-child(1) { width: 50px; } /* Rank */
+        th:nth-child(2) { width: 18%; }  /* Franquia - Diminuida para caber todas na tela */
         th:nth-child(3) { width: 10%; }  /* Total Inads */
         th:nth-child(4) { width: 14%; }  /* Anotações Vencidas */
         th:nth-child(5) { width: 10%; }  /* Em Branco */
-        th:nth-child(6) { width: 15%; }  /* Tag (Select) */
-        th:nth-child(7) { width: 12%; }  /* Hunter */
-        th:nth-child(8) { width: 8%; }   /* Regional */
-        th:nth-child(9) { width: 8%; }   /* Horizonte */
-
+        th:nth-child(6) { width: 16%; }  /* Tag (Select) */
+        th:nth-child(7) { width: 14%; }  /* Hunter */
+        th:nth-child(8) { width: 9%; }   /* Regional */
+        th:nth-child(9) { width: 9%; }   /* Horizonte */
 
         th.sortable { cursor: pointer; user-select: none; }
 
@@ -436,6 +435,14 @@
             return isNaN(n) ? 0 : n;
         }
 
+        function parseBrFloat(val) {
+            if (val === undefined || val === null || val === '') return 0;
+            if (typeof val === 'number') return val;
+            let s = val.toString().replace('%', '').replace(/\./g, '').replace(',', '.').trim();
+            let n = parseFloat(s);
+            return isNaN(n) ? 0 : n;
+        }
+
         function cleanUnitName(name) {
             if (!name) return '';
             return name.replace(/^V4\s+Company\s+/i, '').replace(/^V4\s+/i, '').trim();
@@ -460,6 +467,7 @@
                         franchiseClean: cleanUnitName(item.franchise),
                         totalInadsNum: parseBrInt(item.total_inads),
                         anotacoesVencidasNum: parseBrInt(item.anotacoes_vencidas),
+                        pctAnotacoesVencidasNum: parseBrFloat(item['% anotacoes_vencidas']),
                         emBrancoNum: parseBrInt(item.em_branco),
                         criticalCustomerNum: parseBrInt(item.critical_customer),
                         inCollectionNum: parseBrInt(item.in_collection),
@@ -635,10 +643,18 @@
                     const meta = chart.getDatasetMeta(0);
                     const style = meta.controller.getStyle(i);
                     const value = data.datasets[0].data[i];
-                    const pct = total > 0 ? ((value / total) * 100).toFixed(2).replace('.', ',') + '%' : '0,00%';
+                    
+                    let pctFormatted = '0,00%';
+                    // Lógica Especial para o Gráfico 2 (Anotações Vencidas vs Válidas)
+                    if (chart.canvas.id === 'vencidasChart' && chart.customPcts) {
+                        const pctVal = chart.customPcts[i];
+                        pctFormatted = pctVal.toFixed(2).replace('.', ',') + '%';
+                    } else {
+                        pctFormatted = total > 0 ? ((value / total) * 100).toFixed(2).replace('.', ',') + '%' : '0,00%';
+                    }
                     
                     return {
-                        text: `${label}: ${value.toLocaleString('pt-BR')} (${pct})`,
+                        text: `${label}: ${value.toLocaleString('pt-BR')} (${pctFormatted})`,
                         fillStyle: style.backgroundColor,
                         strokeStyle: style.borderColor,
                         lineWidth: style.borderWidth,
@@ -671,8 +687,16 @@
                             let label = context.label || '';
                             let value = context.raw || 0;
                             let total = context.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
-                            let pct = total > 0 ? ((value / total) * 100).toFixed(2).replace('.', ',') + '%' : '0,00%';
-                            return ` ${label}: ${value.toLocaleString('pt-BR')} (${pct})`;
+                            
+                            let pctFormatted = '0,00%';
+                            if (context.chart.canvas.id === 'vencidasChart' && context.chart.customPcts) {
+                                const pctVal = context.chart.customPcts[context.dataIndex];
+                                pctFormatted = pctVal.toFixed(2).replace('.', ',') + '%';
+                            } else {
+                                pctFormatted = total > 0 ? ((value / total) * 100).toFixed(2).replace('.', ',') + '%' : '0,00%';
+                            }
+                            
+                            return ` ${label}: ${value.toLocaleString('pt-BR')} (${pctFormatted})`;
                         }
                     }
                 }
@@ -692,11 +716,15 @@
                 acc.totalInads += curr.totalInadsNum;
                 acc.anotacoesVencidas += curr.anotacoesVencidasNum;
                 acc.emBranco += curr.emBrancoNum;
+                
+                // Ponderação da porcentagem de anotações vencidas pelo total de inads da unidade
+                acc.weightedPctVencidas += (curr.pctAnotacoesVencidasNum * curr.totalInadsNum);
+
                 return acc;
             }, {
                 critical: 0, inCollection: 0, inProgress: 0, negotiated: 0,
                 pending: 0, churn1st: 0, duplicate: 0,
-                totalInads: 0, anotacoesVencidas: 0, emBranco: 0
+                totalInads: 0, anotacoesVencidas: 0, emBranco: 0, weightedPctVencidas: 0
             });
 
             // Cores
@@ -709,7 +737,6 @@
             chart1Instance = new Chart(ctx1, {
                 type: 'doughnut',
                 data: {
-                    // Tradução das tags no gráfico 1
                     labels: ['Cliente Crítico', 'Em Cobrança', 'Tratativa em Andamento', 'Negociado', 'Pendente Tratativa', 'Churn M0', 'Duplicidade'],
                     datasets: [{
                         data: [
@@ -726,10 +753,14 @@
                 options: commonChartOptions
             });
 
-            // GRÁFICO 2: Anotações Vencidas (Vermelho) vs Anotações Válidas (Verde)
+            // GRÁFICO 2: Anotações Vencidas (Usando a % de anotações vencidas do JSON)
+            const pctVencidas = totals.totalInads > 0 ? (totals.weightedPctVencidas / totals.totalInads) : 0;
+            const pctValidas = Math.max(0, 100 - pctVencidas);
             const demaisInads = Math.max(0, totals.totalInads - totals.anotacoesVencidas);
+
             const ctx2 = document.getElementById('vencidasChart').getContext('2d');
             if (chart2Instance) chart2Instance.destroy();
+            
             chart2Instance = new Chart(ctx2, {
                 type: 'pie',
                 data: {
@@ -743,6 +774,9 @@
                 },
                 options: commonChartOptions
             });
+            // Armazena a porcentagem exata do JSON para uso na legenda/tooltip
+            chart2Instance.customPcts = [pctVencidas, pctValidas];
+            chart2Instance.update();
 
             // GRÁFICO 3: Em Branco (Vermelho) vs Com Tag/Anotação (Verde)
             const comTag = Math.max(0, totals.totalInads - totals.emBranco);
