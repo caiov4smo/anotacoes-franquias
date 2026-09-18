@@ -94,7 +94,7 @@
             border-color: #ff1a26;
         }
 
-        /* GRÁFICOS - 2 Colunas para Notebook */
+        /* GRÁFICOS - 2 Colunas (Proporção 3:2) para dar mais espaço à legenda do Gráfico 1 */
         .charts-section {
             padding: 0.6rem 1.5rem 0.4rem 1.5rem;
             flex-shrink: 0;
@@ -102,7 +102,7 @@
 
         .charts-container {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: 3fr 2fr; /* Gráfico 1 mais largo */
             gap: 1rem;
             background-color: var(--panel-bg);
             padding: 0.6rem 0.8rem;
@@ -691,6 +691,7 @@
             // Cores
             const corVermelho = '#E50914';
             const corVerdeGH = '#238636';
+            const corBranca = '#FFFFFF'; // Em Branco = Branco
 
             // GRÁFICO 1: Distribuição de Tags + Em Branco em um único gráfico
             const ctx1 = document.getElementById('tagsChart').getContext('2d');
@@ -706,7 +707,7 @@
                             totals.emBranco
                         ],
                         backgroundColor: [
-                            '#E50914', '#FF9800', '#2196F3', '#4CAF50', '#9C27B0', '#D32F2F', '#607D8B', '#FFD700'
+                            '#E50914', '#FF9800', '#2196F3', '#4CAF50', '#9C27B0', '#D32F2F', '#607D8B', corBranca
                         ],
                         borderWidth: 1,
                         borderColor: '#121212'
