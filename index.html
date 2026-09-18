@@ -161,6 +161,8 @@
             width: 100%;
             border-collapse: separate;
             border-spacing: 0 4px;
+            /* Layout Fixo para controle de colunas */
+            table-layout: fixed; 
         }
 
         thead {
@@ -171,27 +173,42 @@
         }
 
         th {
-            padding: 0.4rem 0.5rem;
+            padding: 0.4rem 0.3rem; /* Reduzido padding */
             text-align: right;
-            font-size: 0.68rem;
+            font-size: 0.65rem; /* Reduzido fonte do cabecalho */
             text-transform: uppercase;
             font-weight: 700;
             color: var(--text-muted);
             white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
+
+        /* Definindo larguras de colunas */
+        th:nth-child(1) { width: 60px; } /* Rank */
+        th:nth-child(2) { width: 22%; }  /* Franquia - Diminuida para caber tudo */
+        th:nth-child(3) { width: 10%; }  /* Total Inads */
+        th:nth-child(4) { width: 14%; }  /* Anotações Vencidas */
+        th:nth-child(5) { width: 10%; }  /* Em Branco */
+        th:nth-child(6) { width: 15%; }  /* Tag (Select) */
+        th:nth-child(7) { width: 12%; }  /* Hunter */
+        th:nth-child(8) { width: 8%; }   /* Regional */
+        th:nth-child(9) { width: 8%; }   /* Horizonte */
+
 
         th.sortable { cursor: pointer; user-select: none; }
 
         th span {
             background-color: #171717;
-            padding: 0.25rem 0.5rem;
+            padding: 0.25rem 0.4rem; /* Reduzido padding */
             border-radius: 4px;
             border-bottom: 2px solid var(--v4-red);
             color: #ffffff;
             display: inline-flex;
             align-items: center;
-            gap: 4px;
+            gap: 2px;
             transition: background-color 0.2s;
+            max-width: 100%; /* Garante que o span nao estoure o th */
         }
 
         th.sortable:hover span {
@@ -218,7 +235,7 @@
             color: #fff;
             border: none;
             outline: none;
-            font-size: 0.68rem;
+            font-size: 0.65rem; /* Ajustado tamanho da fonte do dropdown */
             font-weight: 700;
             text-transform: uppercase;
             cursor: pointer;
@@ -227,6 +244,8 @@
             background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 12 8'><path fill='%23ffffff' d='M1.41 0L6 4.58 10.59 0 12 1.41l-6 6-6-6z'/></svg>");
             background-repeat: no-repeat;
             background-position: right center;
+            width: 100%; /* Força a caber no espaco */
+            text-overflow: ellipsis;
         }
         .table-select option {
             background-color: #1a1a1a;
@@ -249,12 +268,14 @@
         }
 
         td {
-            padding: 0.4rem 0.5rem;
-            font-size: 0.75rem;
+            padding: 0.4rem 0.3rem; /* Reduzido padding */
+            font-size: 0.72rem; /* Reduzida a fonte das celulas */
             text-align: right;
             font-weight: 500;
             color: #e5e5e5;
             white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis; /* Reticencias caso texto exceda */
         }
 
         td:nth-child(1), td:nth-child(2) { text-align: left; }
@@ -263,8 +284,7 @@
             font-weight: 800; 
             color: var(--text-muted); 
             text-align: center;
-            font-size: 0.85rem;
-            width: 50px;
+            font-size: 0.8rem;
         }
 
         td.regional-col, td.horizonte-col, td.hunter-col {
@@ -368,15 +388,15 @@
                         
                         <!-- Coluna Dinâmica de TAGs (com Select embutido) -->
                         <th class="sortable" data-col="dynamicTag">
-                            <span style="padding-left: 0.4rem; padding-right: 0.4rem;">
+                            <span style="padding-left: 0.2rem; padding-right: 0.2rem; width: 100%;">
                                 <select id="dynamic-tag-select" class="table-select">
-                                    <option value="criticalCustomerNum">Crítico</option>
+                                    <option value="criticalCustomerNum">Cliente Crítico</option>
                                     <option value="inCollectionNum">Em Cobrança</option>
-                                    <option value="inProgressNum">Em Andamento</option>
+                                    <option value="inProgressNum">Tratativa em Andamento</option>
                                     <option value="negotiatedNum">Negociado</option>
-                                    <option value="pendingActionNum">Ação Pendente</option>
-                                    <option value="churnFirstDayNum">Churn 1º Dia</option>
-                                    <option value="duplicateNum">Duplicado</option>
+                                    <option value="pendingActionNum">Pendente Tratativa</option>
+                                    <option value="churnFirstDayNum">Churn M0</option>
+                                    <option value="duplicateNum">Duplicidade</option>
                                 </select>
                                 <i class="sort-icon">↕</i>
                             </span>
@@ -461,7 +481,7 @@
                 applyFilterAndSort();
             } catch (err) {
                 console.error(err);
-                document.getElementById('table-body').innerHTML = `<tr><td colspan="10" style="text-align:center; color:var(--v4-red);">Erro ao carregar o arquivo 'dados.json'. Certifique-se de que ele está presente na raiz.</td></tr>`;
+                document.getElementById('table-body').innerHTML = `<tr><td colspan="9" style="text-align:center; color:var(--v4-red);">Erro ao carregar o arquivo 'dados.json'. Certifique-se de que ele está presente na raiz.</td></tr>`;
             }
         }
 
@@ -689,7 +709,8 @@
             chart1Instance = new Chart(ctx1, {
                 type: 'doughnut',
                 data: {
-                    labels: ['Crítico', 'Em Cobrança', 'Em Andamento', 'Negociado', 'Ação Pendente', 'Churn 1º Dia', 'Duplicado'],
+                    // Tradução das tags no gráfico 1
+                    labels: ['Cliente Crítico', 'Em Cobrança', 'Tratativa em Andamento', 'Negociado', 'Pendente Tratativa', 'Churn M0', 'Duplicidade'],
                     datasets: [{
                         data: [
                             totals.critical, totals.inCollection, totals.inProgress, 
@@ -705,14 +726,14 @@
                 options: commonChartOptions
             });
 
-            // GRÁFICO 2: Anotações Vencidas (Vermelho) vs Demais Inadimplências (Verde)
+            // GRÁFICO 2: Anotações Vencidas (Vermelho) vs Anotações Válidas (Verde)
             const demaisInads = Math.max(0, totals.totalInads - totals.anotacoesVencidas);
             const ctx2 = document.getElementById('vencidasChart').getContext('2d');
             if (chart2Instance) chart2Instance.destroy();
             chart2Instance = new Chart(ctx2, {
                 type: 'pie',
                 data: {
-                    labels: ['Anotações Vencidas', 'Demais Inadimplências'],
+                    labels: ['Anotações Vencidas', 'Anotações Válidas'],
                     datasets: [{
                         data: [totals.anotacoesVencidas, demaisInads],
                         backgroundColor: [corVermelho, corVerdeGH],
@@ -747,7 +768,7 @@
             let html = '';
 
             if (data.length === 0) {
-                tableBody.innerHTML = '<tr><td colspan="10" style="text-align:center;">Nenhuma franquia encontrada.</td></tr>';
+                tableBody.innerHTML = '<tr><td colspan="9" style="text-align:center;">Nenhuma franquia encontrada.</td></tr>';
                 return;
             }
 
@@ -775,9 +796,9 @@
                         <td style="color: #92e0ff; font-weight: 700;">${dynamicTagValue.toLocaleString('pt-BR')}</td>
 
                         <!-- Colunas Centralizadas -->
-                        <td class="hunter-col text-center">${row.hunter}</td>
-                        <td class="regional-col text-center">${row.regional}</td>
-                        <td class="horizonte-col text-center">${row.horizonteSigla}</td>
+                        <td class="hunter-col text-center" title="${row.hunter}">${row.hunter}</td>
+                        <td class="regional-col text-center" title="${row.regional}">${row.regional}</td>
+                        <td class="horizonte-col text-center" title="${row.horizonteSigla}">${row.horizonteSigla}</td>
                     </tr>
                 `;
             });
