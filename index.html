@@ -94,7 +94,7 @@
             border-color: #ff1a26;
         }
 
-        /* GRÁFICOS - 2 Colunas (Proporção 3:2) para dar mais espaço à legenda do Gráfico 1 */
+        /* GRÁFICOS - 2 Colunas (Proporção 3:2) */
         .charts-section {
             padding: 0.6rem 1.5rem 0.4rem 1.5rem;
             flex-shrink: 0;
@@ -102,7 +102,7 @@
 
         .charts-container {
             display: grid;
-            grid-template-columns: 3fr 2fr; /* Gráfico 1 mais largo */
+            grid-template-columns: 3fr 2fr;
             gap: 1rem;
             background-color: var(--panel-bg);
             padding: 0.6rem 0.8rem;
@@ -143,7 +143,7 @@
             align-items: center;
         }
 
-        /* TABELA DE DADOS - Ajustado para Notebook */
+        /* TABELA DE DADOS */
         .table-section {
             flex: 1;
             padding: 0.4rem 1.5rem 0.8rem 1.5rem;
@@ -183,16 +183,17 @@
             text-overflow: ellipsis;
         }
 
-        /* Definindo larguras de colunas para caber 100% no notebook sem scroll horizontal */
-        th:nth-child(1) { width: 50px; } /* Rank */
-        th:nth-child(2) { width: 18%; }  /* Franquia */
-        th:nth-child(3) { width: 10%; }  /* Total Inads */
-        th:nth-child(4) { width: 14%; }  /* Anotações Vencidas */
-        th:nth-child(5) { width: 10%; }  /* Em Branco */
-        th:nth-child(6) { width: 16%; }  /* Tag (Select) */
-        th:nth-child(7) { width: 14%; }  /* Hunter */
-        th:nth-child(8) { width: 9%; }   /* Regional */
-        th:nth-child(9) { width: 9%; }   /* Horizonte */
+        /* Definindo larguras das 10 colunas para cabe no notebook */
+        th:nth-child(1) { width: 45px; } /* Rank */
+        th:nth-child(2) { width: 17%; }  /* Franquia */
+        th:nth-child(3) { width: 9%; }   /* Total Inads */
+        th:nth-child(4) { width: 12%; }  /* Anotações Vencidas */
+        th:nth-child(5) { width: 8%; }   /* Em Branco */
+        th:nth-child(6) { width: 10%; }  /* % Preenchimento */
+        th:nth-child(7) { width: 15%; }  /* Tag (Select) */
+        th:nth-child(8) { width: 13%; }  /* Hunter */
+        th:nth-child(9) { width: 8%; }   /* Regional */
+        th:nth-child(10) { width: 8%; }  /* Horizonte */
 
         th.sortable { cursor: pointer; user-select: none; }
 
@@ -373,6 +374,7 @@
                         <th class="sortable" data-col="totalInadsNum"><span>Total Inads <i class="sort-icon">↕</i></span></th>
                         <th class="sortable" data-col="anotacoesVencidasNum"><span>Anotações Vencidas <i class="sort-icon">↕</i></span></th>
                         <th class="sortable" data-col="emBrancoNum"><span>Em Branco <i class="sort-icon">↕</i></span></th>
+                        <th class="sortable" data-col="pctPreenchimentoNum"><span>% Preench. <i class="sort-icon">↕</i></span></th>
                         
                         <!-- Coluna Dinâmica de TAGs (com Select embutido) -->
                         <th class="sortable" data-col="dynamicTag">
@@ -442,12 +444,17 @@
                 const rawData = await response.json();
 
                 allData = rawData.map(item => {
+                    const totalInadsNum = parseBrInt(item.total_inads);
+                    const emBrancoNum = parseBrInt(item.em_branco);
+                    const pctPreenchimentoNum = totalInadsNum > 0 ? ((totalInadsNum - emBrancoNum) / totalInadsNum) * 100 : 0;
+
                     return {
                         ...item,
                         franchiseClean: cleanUnitName(item.franchise),
-                        totalInadsNum: parseBrInt(item.total_inads),
+                        totalInadsNum: totalInadsNum,
                         anotacoesVencidasNum: parseBrInt(item.anotacoes_vencidas),
-                        emBrancoNum: parseBrInt(item.em_branco),
+                        emBrancoNum: emBrancoNum,
+                        pctPreenchimentoNum: pctPreenchimentoNum,
                         criticalCustomerNum: parseBrInt(item.critical_customer),
                         inCollectionNum: parseBrInt(item.in_collection),
                         inProgressNum: parseBrInt(item.in_progress),
@@ -468,7 +475,7 @@
                 applyFilterAndSort();
             } catch (err) {
                 console.error(err);
-                document.getElementById('table-body').innerHTML = `<tr><td colspan="9" style="text-align:center; color:var(--v4-red);">Erro ao carregar o arquivo 'dados.json'. Certifique-se de que ele está presente na raiz.</td></tr>`;
+                document.getElementById('table-body').innerHTML = `<tr><td colspan="10" style="text-align:center; color:var(--v4-red);">Erro ao carregar o arquivo 'dados.json'. Certifique-se de que ele está presente na raiz.</td></tr>`;
             }
         }
 
@@ -691,7 +698,7 @@
             // Cores
             const corVermelho = '#E50914';
             const corVerdeGH = '#238636';
-            const corBranca = '#FFFFFF'; // Em Branco = Branco
+            const corBranca = '#FFFFFF';
 
             // GRÁFICO 1: Distribuição de Tags + Em Branco em um único gráfico
             const ctx1 = document.getElementById('tagsChart').getContext('2d');
@@ -717,9 +724,7 @@
             });
 
             // GRÁFICO 2: Anotações Vencidas vs Anotações Válidas (sobre o Universo de Preenchidas)
-            // Total Preenchidas = Total Inads - Em Branco
             const totalPreenchidas = Math.max(0, totals.totalInads - totals.emBranco);
-            // Anotações Válidas = Total Preenchidas - Anotações Vencidas
             const anotacoesValidas = Math.max(0, totalPreenchidas - totals.anotacoesVencidas);
 
             const ctx2 = document.getElementById('vencidasChart').getContext('2d');
@@ -745,7 +750,7 @@
             let html = '';
 
             if (data.length === 0) {
-                tableBody.innerHTML = '<tr><td colspan="9" style="text-align:center;">Nenhuma franquia encontrada.</td></tr>';
+                tableBody.innerHTML = '<tr><td colspan="10" style="text-align:center;">Nenhuma franquia encontrada.</td></tr>';
                 return;
             }
 
@@ -768,6 +773,7 @@
                         <td style="font-weight: 800; color: #fff;">${row.totalInadsNum.toLocaleString('pt-BR')}</td>
                         <td style="color: #ff5252;">${row.anotacoesVencidasNum.toLocaleString('pt-BR')}</td>
                         <td style="color: #ffd700;">${row.emBrancoNum.toLocaleString('pt-BR')}</td>
+                        <td style="color: #00E676; font-weight: 700;">${row.pctPreenchimentoNum.toFixed(2).replace('.', ',')}%</td>
                         
                         <!-- Coluna Dinâmica -->
                         <td style="color: #92e0ff; font-weight: 700;">${dynamicTagValue.toLocaleString('pt-BR')}</td>
