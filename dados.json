@@ -2625,7 +2625,7 @@
     "horizonte": "H2 - Coordenadora - 60k a 150k"
   },
   {
-    "franchise": "V4 Company Amaro & Co.",
+    "franchise": "V4 Barros & Camargo & Co.",
     "churn_first_day": "0",
     "% churn_first_day": "0%",
     "critical_customer": "0",
@@ -2640,13 +2640,13 @@
     "% negotiated": "0%",
     "pending_action": "0",
     "% pending_action": "0%",
-    "em_branco": "9",
+    "em_branco": "8",
     "% em_branco": "100%",
     "anotacoes_vencidas": "0",
     "% anotacoes_vencidas": "",
-    "total_inads": "9",
-    "hunter": "Deborah Reynaldo",
-    "regional": "PR",
+    "total_inads": "8",
+    "hunter": "Eric de Paula",
+    "regional": "SP2",
     "horizonte": "H2 - Coordenadora - 60k a 150k"
   },
   {
@@ -2675,7 +2675,7 @@
     "horizonte": "H3 - Gerente - 150k a 450k"
   },
   {
-    "franchise": "V4 Company Tormes & Co",
+    "franchise": "V4 Company Cintra Cardoso Damasceno & Co",
     "churn_first_day": "0",
     "% churn_first_day": "0%",
     "critical_customer": "0",
@@ -2695,9 +2695,9 @@
     "anotacoes_vencidas": "0",
     "% anotacoes_vencidas": "",
     "total_inads": "4",
-    "hunter": "Izabela Mattano",
-    "regional": "RS",
-    "horizonte": "H0 - Incubadora"
+    "hunter": "Bruno Ferreira",
+    "regional": "MG3",
+    "horizonte": "H2 - Coordenadora - 60k a 150k"
   },
   {
     "franchise": "V4 Company MBA & CO",
@@ -2725,7 +2725,7 @@
     "horizonte": "H2 - Coordenadora - 60k a 150k"
   },
   {
-    "franchise": "V4 Barros & Camargo & Co.",
+    "franchise": "V4 Company Amaro & Co.",
     "churn_first_day": "0",
     "% churn_first_day": "0%",
     "critical_customer": "0",
@@ -2740,13 +2740,13 @@
     "% negotiated": "0%",
     "pending_action": "0",
     "% pending_action": "0%",
-    "em_branco": "8",
+    "em_branco": "9",
     "% em_branco": "100%",
     "anotacoes_vencidas": "0",
     "% anotacoes_vencidas": "",
-    "total_inads": "8",
-    "hunter": "Eric de Paula",
-    "regional": "SP2",
+    "total_inads": "9",
+    "hunter": "Deborah Reynaldo",
+    "regional": "PR",
     "horizonte": "H2 - Coordenadora - 60k a 150k"
   },
   {
@@ -2775,7 +2775,7 @@
     "horizonte": "H2 - Coordenadora - 60k a 150k"
   },
   {
-    "franchise": "V4 Company Fc & Co",
+    "franchise": "V4 Company Martins Fiorotti & Co",
     "churn_first_day": "0",
     "% churn_first_day": "0%",
     "critical_customer": "0",
@@ -2795,8 +2795,8 @@
     "anotacoes_vencidas": "0",
     "% anotacoes_vencidas": "",
     "total_inads": "4",
-    "hunter": "Izabela Mattano",
-    "regional": "NE",
+    "hunter": "Eric de Paula",
+    "regional": "RJ",
     "horizonte": "H1 - SOS - até 60k"
   },
   {
@@ -2825,7 +2825,7 @@
     "horizonte": "H2 - Coordenadora - 60k a 150k"
   },
   {
-    "franchise": "V4 Company Bragion & Co.",
+    "franchise": "V4 Company Rdr & Co.",
     "churn_first_day": "0",
     "% churn_first_day": "0%",
     "critical_customer": "0",
@@ -2875,7 +2875,7 @@
     "horizonte": "H3 - Gerente - 150k a 450k"
   },
   {
-    "franchise": "V4 Company Cintra Cardoso Damasceno & Co",
+    "franchise": "V4 Company Bragion & Co.",
     "churn_first_day": "0",
     "% churn_first_day": "0%",
     "critical_customer": "0",
@@ -2890,13 +2890,13 @@
     "% negotiated": "0%",
     "pending_action": "0",
     "% pending_action": "0%",
-    "em_branco": "4",
+    "em_branco": "1",
     "% em_branco": "100%",
     "anotacoes_vencidas": "0",
     "% anotacoes_vencidas": "",
-    "total_inads": "4",
+    "total_inads": "1",
     "hunter": "Bruno Ferreira",
-    "regional": "MG3",
+    "regional": "MG2",
     "horizonte": "H2 - Coordenadora - 60k a 150k"
   },
   {
@@ -2925,7 +2925,7 @@
     "horizonte": "H3 - Gerente - 150k a 450k"
   },
   {
-    "franchise": "V4 Company Martins Fiorotti & Co",
+    "franchise": "V4 Company Fc & Co",
     "churn_first_day": "0",
     "% churn_first_day": "0%",
     "critical_customer": "0",
@@ -2945,8 +2945,8 @@
     "anotacoes_vencidas": "0",
     "% anotacoes_vencidas": "",
     "total_inads": "4",
-    "hunter": "Eric de Paula",
-    "regional": "RJ",
+    "hunter": "Izabela Mattano",
+    "regional": "NE",
     "horizonte": "H1 - SOS - até 60k"
   },
   {
@@ -2975,7 +2975,7 @@
     "horizonte": "H2 - Coordenadora - 60k a 150k"
   },
   {
-    "franchise": "V4 Company Rdr & Co.",
+    "franchise": "V4 Company Tormes & Co",
     "churn_first_day": "0",
     "% churn_first_day": "0%",
     "critical_customer": "0",
@@ -2990,14 +2990,14 @@
     "% negotiated": "0%",
     "pending_action": "0",
     "% pending_action": "0%",
-    "em_branco": "1",
+    "em_branco": "4",
     "% em_branco": "100%",
     "anotacoes_vencidas": "0",
     "% anotacoes_vencidas": "",
-    "total_inads": "1",
-    "hunter": "Bruno Ferreira",
-    "regional": "MG2",
-    "horizonte": "H2 - Coordenadora - 60k a 150k"
+    "total_inads": "4",
+    "hunter": "Izabela Mattano",
+    "regional": "RS",
+    "horizonte": "H0 - Incubadora"
   },
   {
     "franchise": "V4 Company Fontanella & Associados",
@@ -3550,7 +3550,7 @@
     "horizonte": "H2 - Coordenadora - 60k a 150k"
   },
   {
-    "franchise": "V4 Company Lorensi & Associados",
+    "franchise": "V4 Company Alonso Chicchinato & Co",
     "churn_first_day": "0",
     "% churn_first_day": "0%",
     "critical_customer": "0",
@@ -3565,14 +3565,14 @@
     "% negotiated": "0%",
     "pending_action": "0",
     "% pending_action": "0%",
-    "em_branco": "4",
+    "em_branco": "12",
     "% em_branco": "100%",
     "anotacoes_vencidas": "0",
     "% anotacoes_vencidas": "",
-    "total_inads": "4",
-    "hunter": "Izabela Mattano",
-    "regional": "RS",
-    "horizonte": "H2 - Coordenadora - 60k a 150k"
+    "total_inads": "12",
+    "hunter": "Bruno Ferreira",
+    "regional": "SP1",
+    "horizonte": "H1 - SOS - até 60k"
   },
   {
     "franchise": "V4 Company Rpz & Co.",
@@ -3650,7 +3650,7 @@
     "horizonte": "H1 - Aceleração"
   },
   {
-    "franchise": "V4 Company Ruiz & Co",
+    "franchise": "V4 Company Costa Vieira & Co",
     "churn_first_day": "0",
     "% churn_first_day": "0%",
     "critical_customer": "0",
@@ -3665,14 +3665,14 @@
     "% negotiated": "0%",
     "pending_action": "0",
     "% pending_action": "0%",
-    "em_branco": "3",
+    "em_branco": "8",
     "% em_branco": "100%",
     "anotacoes_vencidas": "0",
     "% anotacoes_vencidas": "",
-    "total_inads": "3",
-    "hunter": "CAIU",
-    "regional": "MG1",
-    "horizonte": "H1 - SOS - até 60k"
+    "total_inads": "8",
+    "hunter": "Eric de Paula",
+    "regional": "RJ",
+    "horizonte": "H2 - Coordenadora - 60k a 150k"
   },
   {
     "franchise": "V4 Company Onnis Diamante Costa & Co.",
@@ -3700,7 +3700,7 @@
     "horizonte": "H2 - Coordenadora - 60k a 150k"
   },
   {
-    "franchise": "V4 Company Alonso Chicchinato & Co",
+    "franchise": "V4 Company Lorensi & Associados",
     "churn_first_day": "0",
     "% churn_first_day": "0%",
     "critical_customer": "0",
@@ -3715,63 +3715,13 @@
     "% negotiated": "0%",
     "pending_action": "0",
     "% pending_action": "0%",
-    "em_branco": "12",
+    "em_branco": "4",
     "% em_branco": "100%",
     "anotacoes_vencidas": "0",
     "% anotacoes_vencidas": "",
-    "total_inads": "12",
-    "hunter": "Bruno Ferreira",
-    "regional": "SP1",
-    "horizonte": "H1 - SOS - até 60k"
-  },
-  {
-    "franchise": "V4 Company Rdgs Assessoria De Marketing & Co",
-    "churn_first_day": "0",
-    "% churn_first_day": "0%",
-    "critical_customer": "0",
-    "% critical_customer": "0%",
-    "duplicate": "0",
-    "% duplicate": "0%",
-    "in_collection": "0",
-    "% in_collection": "0%",
-    "in_progress": "0",
-    "% in_progress": "0%",
-    "negotiated": "1",
-    "% negotiated": "100%",
-    "pending_action": "0",
-    "% pending_action": "0%",
-    "em_branco": "0",
-    "% em_branco": "0%",
-    "anotacoes_vencidas": "0",
-    "% anotacoes_vencidas": "0%",
-    "total_inads": "1",
-    "hunter": "",
-    "regional": "SC",
-    "horizonte": "H1 - Aceleração"
-  },
-  {
-    "franchise": "V4 Company Costa Vieira & Co",
-    "churn_first_day": "0",
-    "% churn_first_day": "0%",
-    "critical_customer": "0",
-    "% critical_customer": "0%",
-    "duplicate": "0",
-    "% duplicate": "0%",
-    "in_collection": "0",
-    "% in_collection": "0%",
-    "in_progress": "0",
-    "% in_progress": "0%",
-    "negotiated": "0",
-    "% negotiated": "0%",
-    "pending_action": "0",
-    "% pending_action": "0%",
-    "em_branco": "8",
-    "% em_branco": "100%",
-    "anotacoes_vencidas": "0",
-    "% anotacoes_vencidas": "",
-    "total_inads": "8",
-    "hunter": "Eric de Paula",
-    "regional": "RJ",
+    "total_inads": "4",
+    "hunter": "Izabela Mattano",
+    "regional": "RS",
     "horizonte": "H2 - Coordenadora - 60k a 150k"
   },
   {
@@ -3798,6 +3748,56 @@
     "hunter": "Deborah Reynaldo",
     "regional": "SC",
     "horizonte": "H1 - Aceleração"
+  },
+  {
+    "franchise": "V4 Company Ruiz & Co",
+    "churn_first_day": "0",
+    "% churn_first_day": "0%",
+    "critical_customer": "0",
+    "% critical_customer": "0%",
+    "duplicate": "0",
+    "% duplicate": "0%",
+    "in_collection": "0",
+    "% in_collection": "0%",
+    "in_progress": "0",
+    "% in_progress": "0%",
+    "negotiated": "0",
+    "% negotiated": "0%",
+    "pending_action": "0",
+    "% pending_action": "0%",
+    "em_branco": "3",
+    "% em_branco": "100%",
+    "anotacoes_vencidas": "0",
+    "% anotacoes_vencidas": "",
+    "total_inads": "3",
+    "hunter": "CAIU",
+    "regional": "MG1",
+    "horizonte": "H1 - SOS - até 60k"
+  },
+  {
+    "franchise": "V4 Company Cruz Alves & Co.",
+    "churn_first_day": "0",
+    "% churn_first_day": "0%",
+    "critical_customer": "0",
+    "% critical_customer": "0%",
+    "duplicate": "0",
+    "% duplicate": "0%",
+    "in_collection": "0",
+    "% in_collection": "0%",
+    "in_progress": "0",
+    "% in_progress": "0%",
+    "negotiated": "0",
+    "% negotiated": "0%",
+    "pending_action": "0",
+    "% pending_action": "0%",
+    "em_branco": "4",
+    "% em_branco": "100%",
+    "anotacoes_vencidas": "0",
+    "% anotacoes_vencidas": "",
+    "total_inads": "4",
+    "hunter": "Izabela Mattano",
+    "regional": "RS",
+    "horizonte": "H2 - Coordenadora - 60k a 150k"
   },
   {
     "franchise": "V4 Company Fernandes & Co",
@@ -3875,7 +3875,7 @@
     "horizonte": "H2 - Coordenadora - 60k a 150k"
   },
   {
-    "franchise": "V4 Company Cruz Alves & Co.",
+    "franchise": "V4 Company Rdgs Assessoria De Marketing & Co",
     "churn_first_day": "0",
     "% churn_first_day": "0%",
     "critical_customer": "0",
@@ -3886,18 +3886,18 @@
     "% in_collection": "0%",
     "in_progress": "0",
     "% in_progress": "0%",
-    "negotiated": "0",
-    "% negotiated": "0%",
+    "negotiated": "1",
+    "% negotiated": "100%",
     "pending_action": "0",
     "% pending_action": "0%",
-    "em_branco": "4",
-    "% em_branco": "100%",
+    "em_branco": "0",
+    "% em_branco": "0%",
     "anotacoes_vencidas": "0",
-    "% anotacoes_vencidas": "",
-    "total_inads": "4",
-    "hunter": "Izabela Mattano",
-    "regional": "RS",
-    "horizonte": "H2 - Coordenadora - 60k a 150k"
+    "% anotacoes_vencidas": "0%",
+    "total_inads": "1",
+    "hunter": "",
+    "regional": "SC",
+    "horizonte": "H1 - Aceleração"
   },
   {
     "franchise": "V4 Company KTM & Co.",
@@ -4850,6 +4850,31 @@
     "horizonte": "H1 - SOS - até 60k"
   },
   {
+    "franchise": "V4 Company Bertin & Co.",
+    "churn_first_day": "0",
+    "% churn_first_day": "0%",
+    "critical_customer": "0",
+    "% critical_customer": "0%",
+    "duplicate": "0",
+    "% duplicate": "0%",
+    "in_collection": "0",
+    "% in_collection": "0%",
+    "in_progress": "0",
+    "% in_progress": "0%",
+    "negotiated": "0",
+    "% negotiated": "0%",
+    "pending_action": "0",
+    "% pending_action": "0%",
+    "em_branco": "3",
+    "% em_branco": "100%",
+    "anotacoes_vencidas": "0",
+    "% anotacoes_vencidas": "",
+    "total_inads": "3",
+    "hunter": "Eric de Paula",
+    "regional": "SP3",
+    "horizonte": "H1 - SOS - até 60k"
+  },
+  {
     "franchise": "V4 Company Moreira & Co.",
     "churn_first_day": "0",
     "% churn_first_day": "0%",
@@ -4897,31 +4922,6 @@
     "total_inads": "3",
     "hunter": "Izabela Mattano",
     "regional": "PR",
-    "horizonte": "H1 - SOS - até 60k"
-  },
-  {
-    "franchise": "V4 Company Bertin & Co.",
-    "churn_first_day": "0",
-    "% churn_first_day": "0%",
-    "critical_customer": "0",
-    "% critical_customer": "0%",
-    "duplicate": "0",
-    "% duplicate": "0%",
-    "in_collection": "0",
-    "% in_collection": "0%",
-    "in_progress": "0",
-    "% in_progress": "0%",
-    "negotiated": "0",
-    "% negotiated": "0%",
-    "pending_action": "0",
-    "% pending_action": "0%",
-    "em_branco": "3",
-    "% em_branco": "100%",
-    "anotacoes_vencidas": "0",
-    "% anotacoes_vencidas": "",
-    "total_inads": "3",
-    "hunter": "Eric de Paula",
-    "regional": "SP3",
     "horizonte": "H1 - SOS - até 60k"
   }
 ]
