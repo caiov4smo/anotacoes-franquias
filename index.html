@@ -16,12 +16,13 @@
             --text-main: #ffffff;
             --text-muted: #8c8c8c;
             --v4-red: #E50914;
-            --v4-red-glow: rgba(229, 9, 20, 0.4);
-            /* Verde estilo GitHub */
-            --v4-green: #238636; 
+            --v4-red-glow: rgba(229, 9, 20, 0.45);
+            --v4-green: #238636;
+            --v4-blue: #1f6feb;
             --silver: #E0E0E0;
             --bronze: #CD7F32;
             --yellow-gold: #FFD700;
+            --border-subtle: rgba(255, 255, 255, 0.07);
         }
 
         * {
@@ -40,7 +41,6 @@
             overflow: hidden;
         }
 
-        /* HEADER - Ajustado para Notebook */
         header {
             position: sticky;
             top: 0;
@@ -55,12 +55,41 @@
             box-shadow: 0 4px 15px rgba(229, 9, 20, 0.15);
         }
 
-        .header-brand h1 {
+        .header-brand {
+            display: flex;
+            align-items: center;
+        }
+
+        .title-select {
+            background-color: transparent;
+            color: var(--v4-red);
+            border: none;
+            outline: none;
             font-size: 1.3rem;
             font-weight: 900;
-            color: var(--v4-red);
             text-transform: uppercase;
             letter-spacing: 1px;
+            cursor: pointer;
+            appearance: none;
+            padding-right: 1.6rem;
+            background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='10' viewBox='0 0 14 10'><path fill='%23E50914' d='M1 2l6 6 6-6'/></svg>");
+            background-repeat: no-repeat;
+            background-position: right center;
+            background-size: 11px;
+            transition: color 0.2s ease, opacity 0.2s ease;
+        }
+
+        .title-select:hover, .title-select:focus {
+            color: #ff3344;
+            background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='10' viewBox='0 0 14 10'><path fill='%23ff3344' d='M1 2l6 6 6-6'/></svg>");
+        }
+
+        .title-select option {
+            background-color: #121212;
+            color: #ffffff;
+            font-size: 0.95rem;
+            font-weight: 800;
+            padding: 6px;
         }
 
         .header-controls {
@@ -94,27 +123,57 @@
             border-color: #ff1a26;
         }
 
-        /* GRÁFICOS - 2 Colunas (Proporção 3:2) */
+        .btn-reset-filters {
+            background: transparent;
+            color: var(--text-muted);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 0.38rem 0.65rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-reset-filters:hover {
+            color: #fff;
+            border-color: var(--v4-red);
+            background: rgba(229, 9, 20, 0.15);
+        }
+
+        .tab-content {
+            display: none;
+            flex: 1;
+            flex-direction: column;
+            overflow: hidden;
+            width: 100%;
+        }
+
+        .tab-content.active {
+            display: flex;
+        }
+
+        /* ================= TAGS TAB STYLING ================= */
         .charts-section {
-            padding: 0.6rem 1.5rem 0.4rem 1.5rem;
+            padding: 0.5rem 1.4rem 0.35rem 1.4rem;
             flex-shrink: 0;
         }
 
         .charts-container {
             display: grid;
             grid-template-columns: 3fr 2fr;
-            gap: 1rem;
+            gap: 0.85rem;
             background-color: var(--panel-bg);
-            padding: 0.6rem 0.8rem;
+            padding: 0.55rem 0.75rem;
             border-radius: 6px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            min-height: 165px;
+            border: 1px solid var(--border-subtle);
+            min-height: 160px;
         }
 
         .chart-card {
             background-color: var(--card-bg);
             border-radius: 4px;
-            padding: 0.5rem;
+            padding: 0.45rem;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -124,12 +183,12 @@
         }
 
         .chart-title {
-            font-size: 0.72rem;
+            font-size: 0.7rem;
             font-weight: 800;
             color: #ffffff;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            margin-bottom: 0.3rem;
+            margin-bottom: 0.25rem;
             text-align: center;
             width: 100%;
         }
@@ -137,41 +196,54 @@
         .chart-wrapper {
             position: relative;
             width: 100%;
-            height: 135px;
+            height: 130px;
             display: flex;
             justify-content: center;
             align-items: center;
         }
 
-        /* TABELA DE DADOS */
         .table-section {
             flex: 1;
-            padding: 0.4rem 1.5rem 0.8rem 1.5rem;
+            padding: 0.3rem 1.4rem 0.8rem 1.4rem;
             overflow-y: auto;
         }
 
-        .table-section::-webkit-scrollbar { width: 6px; }
-        .table-section::-webkit-scrollbar-track { background: var(--bg-color); }
-        .table-section::-webkit-scrollbar-thumb { background: #2a2a2a; border-radius: 4px; }
-        .table-section::-webkit-scrollbar-thumb:hover { background: var(--v4-red); }
+        .table-section::-webkit-scrollbar,
+        .calendar-section::-webkit-scrollbar {
+            width: 6px;
+        }
+        .table-section::-webkit-scrollbar-track,
+        .calendar-section::-webkit-scrollbar-track {
+            background: var(--bg-color);
+        }
+        .table-section::-webkit-scrollbar-thumb,
+        .calendar-section::-webkit-scrollbar-thumb {
+            background: #2a2a2a;
+            border-radius: 4px;
+        }
+        .table-section::-webkit-scrollbar-thumb:hover,
+        .calendar-section::-webkit-scrollbar-thumb:hover {
+            background: var(--v4-red);
+        }
 
         .table-wrapper { width: 100%; }
 
-        table {
+        /* Escopo restrito à tabela da aba TAGS para não afetar o modal */
+        .table-section table {
             width: 100%;
             border-collapse: separate;
             border-spacing: 0 4px;
-            table-layout: fixed; 
+            table-layout: fixed;
         }
 
-        thead {
+        .table-section thead {
             position: sticky;
             top: 0;
             z-index: 10;
             background-color: var(--bg-color);
         }
 
-        th {
+        .table-section th {
             padding: 0.4rem 0.3rem;
             text-align: right;
             font-size: 0.65rem;
@@ -183,17 +255,16 @@
             text-overflow: ellipsis;
         }
 
-        /* Definindo larguras das 10 colunas para cabe no notebook */
-        th:nth-child(1) { width: 45px; } /* Rank */
-        th:nth-child(2) { width: 17%; }  /* Franquia */
-        th:nth-child(3) { width: 9%; }   /* Total Inads */
-        th:nth-child(4) { width: 12%; }  /* Anotações Vencidas */
-        th:nth-child(5) { width: 8%; }   /* Em Branco */
-        th:nth-child(6) { width: 10%; }  /* % Preenchimento */
-        th:nth-child(7) { width: 15%; }  /* Tag (Select) */
-        th:nth-child(8) { width: 13%; }  /* Hunter */
-        th:nth-child(9) { width: 8%; }   /* Regional */
-        th:nth-child(10) { width: 8%; }  /* Horizonte */
+        .table-section th:nth-child(1) { width: 45px; }
+        .table-section th:nth-child(2) { width: 17%; }
+        .table-section th:nth-child(3) { width: 9%; }
+        .table-section th:nth-child(4) { width: 12%; }
+        .table-section th:nth-child(5) { width: 8%; }
+        .table-section th:nth-child(6) { width: 10%; }
+        .table-section th:nth-child(7) { width: 15%; }
+        .table-section th:nth-child(8) { width: 13%; }
+        .table-section th:nth-child(9) { width: 8%; }
+        .table-section th:nth-child(10) { width: 8%; }
 
         th.sortable { cursor: pointer; user-select: none; }
 
@@ -226,7 +297,6 @@
         th:nth-child(1), th:nth-child(2) { text-align: left; }
         th.text-center, td.text-center { text-align: center; }
 
-        /* Dropdown dentro da tabela */
         .table-select {
             background-color: transparent;
             color: #fff;
@@ -277,9 +347,9 @@
 
         td:nth-child(1), td:nth-child(2) { text-align: left; }
 
-        td.rank-col { 
-            font-weight: 800; 
-            color: var(--text-muted); 
+        td.rank-col {
+            font-weight: 800;
+            color: var(--text-muted);
             text-align: center;
             font-size: 0.8rem;
         }
@@ -310,21 +380,610 @@
         tr.top-rank-2 .rank-badge { background: var(--silver); color: #111; }
         tr.top-rank-3 .rank-badge { background: var(--bronze); color: #fff; }
 
+        /* ================= DIAS TAB STYLING ================= */
+        .calendar-section {
+            flex: 1;
+            padding: 0.5rem 1.4rem 1rem 1.4rem;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 0.65rem;
+        }
+
+        .calendar-header-card {
+            background-color: var(--panel-bg);
+            border: 1px solid var(--border-subtle);
+            border-radius: 6px;
+            padding: 0.65rem 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+        }
+
+        .month-stepper {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-month-nav {
+            background: #1c1c1c;
+            border: 1px solid var(--border-subtle);
+            color: #ffffff;
+            width: 32px;
+            height: 32px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 0.95rem;
+            font-weight: 800;
+            transition: all 0.2s ease;
+        }
+
+        .btn-month-nav:hover {
+            border-color: var(--v4-red);
+            background: rgba(229, 9, 20, 0.25);
+            color: #ff3344;
+        }
+
+        .current-month-display {
+            font-size: 1rem;
+            font-weight: 800;
+            color: #ffffff;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            min-width: 180px;
+            text-align: center;
+        }
+
+        .btn-today {
+            background: #1c1c1c;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: var(--text-muted);
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 0.4rem 0.75rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-today:hover {
+            color: #fff;
+            border-color: var(--v4-red);
+        }
+
+        .calendar-kpi-bar {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0.65rem;
+        }
+
+        .cal-kpi-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-subtle);
+            border-radius: 6px;
+            padding: 0.55rem 0.8rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.2rem;
+            border-left: 3px solid var(--v4-red);
+        }
+
+        .cal-kpi-label {
+            font-size: 0.62rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .cal-kpi-value {
+            font-size: 1.05rem;
+            font-weight: 900;
+            color: #ffffff;
+        }
+
+        .cal-kpi-sub {
+            font-size: 0.62rem;
+            color: #a0a0a0;
+        }
+
+        .heatmap-legend-wrap {
+            display: flex;
+            align-items: center;
+            gap: 0.45rem;
+            font-size: 0.65rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+
+        .legend-continuous-bar {
+            width: 140px;
+            height: 10px;
+            border-radius: 5px;
+            background: linear-gradient(90deg, #06b6d4 0%, #10b981 20%, #84cc16 40%, #eab308 60%, #f97316 80%, #ff1a26 100%);
+            box-shadow: 0 0 10px rgba(255, 26, 38, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            flex-shrink: 0;
+        }
+
+        .calendar-grid-container {
+            background: var(--panel-bg);
+            border: 1px solid var(--border-subtle);
+            border-radius: 6px;
+            padding: 0.7rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.45rem;
+            min-height: 480px;
+        }
+
+        .weekdays-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 0.45rem;
+        }
+
+        .weekday-label {
+            text-align: center;
+            font-size: 0.68rem;
+            font-weight: 800;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            padding: 0.3rem 0;
+            background: #161616;
+            border-radius: 3px;
+            letter-spacing: 0.5px;
+        }
+
+        .days-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 0.45rem;
+        }
+
+        .calendar-cell {
+            background: #151515;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 5px;
+            min-height: 84px;
+            padding: 0.45rem 0.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            user-select: none;
+        }
+
+        .calendar-cell:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+            z-index: 5;
+            outline: 1.5px solid #ffffff;
+        }
+
+        .calendar-cell.empty-cell {
+            background: transparent;
+            border-color: transparent;
+            cursor: default;
+        }
+        .calendar-cell.empty-cell:hover {
+            transform: none;
+            box-shadow: none;
+            outline: none;
+        }
+
+        .cell-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+        }
+
+        .cell-day-num {
+            font-size: 0.85rem;
+            font-weight: 800;
+            color: #ffffff;
+        }
+
+        .cell-today-pill {
+            font-size: 0.55rem;
+            font-weight: 800;
+            color: #fff;
+            background: var(--v4-red);
+            padding: 1px 4px;
+            border-radius: 3px;
+            text-transform: uppercase;
+        }
+
+        .cell-inad-count {
+            font-size: 0.62rem;
+            font-weight: 700;
+            color: #d1d5db;
+        }
+
+        .cell-middle {
+            margin-top: 0.25rem;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .cell-amount-label {
+            font-size: 0.55rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .cell-amount-value {
+            font-size: 0.85rem;
+            font-weight: 900;
+            color: #ffffff;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            letter-spacing: -0.2px;
+        }
+
+        .cell-bottom-bar {
+            width: 100%;
+            height: 3px;
+            border-radius: 2px;
+            background: rgba(255, 255, 255, 0.1);
+            overflow: hidden;
+            margin-top: 0.3rem;
+        }
+
+        .cell-bottom-fill {
+            height: 100%;
+            background: var(--v4-red);
+            border-radius: 2px;
+        }
+
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(4px);
+            z-index: 200;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .modal-overlay.open {
+            display: flex;
+        }
+
+        .modal-card {
+            background: #141414;
+            border: 2px solid var(--v4-red);
+            border-radius: 8px;
+            width: 100%;
+            max-width: 920px;
+            max-height: 85vh;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 10px 40px rgba(229, 9, 20, 0.35);
+            overflow: hidden;
+        }
+
+        .modal-header {
+            padding: 0.85rem 1.2rem;
+            background: #0d0d0d;
+            border-bottom: 1px solid var(--border-subtle);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .modal-title {
+            font-size: 0.95rem;
+            font-weight: 800;
+            color: #ffffff;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .btn-modal-close {
+            background: #222;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #fff;
+            width: 28px;
+            height: 28px;
+            border-radius: 4px;
+            font-size: 1rem;
+            font-weight: 800;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .btn-modal-close:hover {
+            background: var(--v4-red);
+            border-color: var(--v4-red);
+        }
+
+        .modal-body {
+            padding: 1rem 1.2rem;
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        /* 3 Cards no topo: Valor Total do Dia, Franquias, Parcelas */
+        .modal-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .modal-stat-box {
+            background: #1b1b1b;
+            padding: 0.65rem 0.9rem;
+            border-radius: 4px;
+            border-left: 3px solid var(--v4-red);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .modal-stat-lbl {
+            font-size: 0.62rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            font-weight: 700;
+            letter-spacing: 0.4px;
+        }
+
+        .modal-stat-val {
+            font-size: 1.15rem;
+            font-weight: 900;
+            margin-top: 4px;
+            letter-spacing: -0.3px;
+        }
+
+        /* Tabela do modal com layout fluído e coluna de valor flexível */
+        .modal-table {
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: auto !important;
+        }
+
+        .modal-table th,
+        .modal-table td {
+            padding: 0.55rem 0.75rem;
+            font-size: 0.74rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            text-align: left;
+            white-space: nowrap;
+            overflow: visible;
+            text-overflow: clip;
+        }
+
+        .modal-table th {
+            background: #181818;
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            font-weight: 800;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+        }
+
+        .modal-table th:first-child,
+        .modal-table td:first-child {
+            max-width: 250px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .modal-table th.col-valor,
+        .modal-table td.col-valor {
+            width: auto;
+            min-width: 155px;
+            text-align: right;
+            white-space: nowrap !important;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .modal-table td.text-right, .modal-table th.text-right {
+            text-align: right;
+        }
+
+        /* Estilos do Modal de Visão Anual / Miniaturas dos Meses */
+        .modal-overview-card {
+            max-width: 1040px;
+            width: 95vw;
+            max-height: 90vh;
+        }
+
+        .current-month-display {
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 0.3rem 0.6rem;
+            border-radius: 4px;
+            border: 1px solid transparent;
+            transition: all 0.2s ease;
+        }
+
+        .current-month-display:hover {
+            background: rgba(255, 255, 255, 0.06);
+            border-color: rgba(255, 255, 255, 0.2);
+            color: #ff3344;
+        }
+
+        .current-month-display .dropdown-hint {
+            font-size: 0.65rem;
+            color: var(--v4-red);
+            transition: transform 0.2s ease;
+        }
+
+        .current-month-display:hover .dropdown-hint {
+            transform: translateY(1px);
+        }
+
+        .overview-year-controls {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .overview-instruction {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            margin-bottom: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            text-align: center;
+        }
+
+        .months-mini-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0.85rem;
+        }
+
+        .month-mini-card {
+            background: #141414;
+            border: 1px solid var(--border-subtle);
+            border-radius: 6px;
+            padding: 0.6rem 0.65rem;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+
+        .month-mini-card:hover {
+            transform: translateY(-2px);
+            border-color: var(--v4-red);
+            box-shadow: 0 4px 14px rgba(229, 9, 20, 0.25);
+            background: #1a1a1a;
+        }
+
+        .month-mini-card.current-active-month {
+            outline: 2px solid var(--v4-red);
+            border-color: var(--v4-red);
+            box-shadow: 0 0 12px rgba(229, 9, 20, 0.35);
+        }
+
+        .month-mini-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding-bottom: 0.3rem;
+        }
+
+        .month-mini-title {
+            font-size: 0.72rem;
+            font-weight: 800;
+            color: #ffffff;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .month-mini-amount {
+            font-size: 0.68rem;
+            font-weight: 800;
+            color: #4ade80;
+        }
+
+        .month-mini-weekdays {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 2px;
+            text-align: center;
+        }
+
+        .month-mini-weekday-lbl {
+            font-size: 0.55rem;
+            font-weight: 700;
+            color: var(--text-muted);
+        }
+
+        .month-mini-cells-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 2.5px;
+        }
+
+        .mini-day-cell {
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.55rem;
+            font-weight: 700;
+            border-radius: 2px;
+            border: 1px solid transparent;
+            transition: transform 0.15s ease;
+        }
+
+        .mini-day-cell.empty {
+            background: transparent;
+            border: none;
+        }
+
+        .mini-day-cell.is-today {
+            outline: 1.5px solid #ffffff;
+            z-index: 2;
+        }
+
+        /* Responsive */
         @media (max-width: 1024px) {
             body { overflow: auto; height: auto; }
             .charts-container { grid-template-columns: 1fr; }
-            header { flex-direction: column; align-items: flex-start; gap: 1rem; }
+            header { flex-direction: column; align-items: flex-start; gap: 0.8rem; }
+            .calendar-kpi-bar { grid-template-columns: repeat(2, 1fr); }
+            .calendar-cell { min-height: 70px; }
+            .modal-stats { grid-template-columns: repeat(3, 1fr); }
+            .months-mini-grid { grid-template-columns: repeat(3, 1fr); }
+        }
+
+        @media (max-width: 640px) {
+            .calendar-kpi-bar { grid-template-columns: 1fr; }
+            .weekdays-grid, .days-grid { gap: 2px; }
+            .cell-amount-value { font-size: 0.7rem; }
+            .cell-day-num { font-size: 0.75rem; }
+            .modal-stats { grid-template-columns: 1fr; }
+            .months-mini-grid { grid-template-columns: repeat(2, 1fr); }
         }
     </style>
 </head>
 <body>
 
-    <!-- CABEÇALHO -->
     <header>
         <div class="header-brand">
-            <h1 id="page-main-title">Inadimplência & Tags</h1>
+            <select id="view-mode-select" class="title-select" title="Alternar Visão">
+                <option value="tags">TAGS</option>
+                <option value="dias" selected>DIAS</option>
+            </select>
         </div>
+
         <div class="header-controls">
+            <!-- FILTRO FRANQUIA (Exibido apenas na aba de DIAS) -->
+            <select id="franchise-filter" class="v4-select" style="display: none; max-width: 230px;" title="Filtrar por Franquia">
+                <option value="all">Todas as Franquias</option>
+            </select>
+
             <!-- FILTRO HUNTER -->
             <select id="hunter-filter" class="v4-select">
                 <option value="all">Todos os Hunters</option>
@@ -339,90 +998,294 @@
             <select id="horizonte-filter" class="v4-select">
                 <option value="all">Todos os Horizontes</option>
             </select>
+
+            <!-- BOTÃO LIMPAR SELEÇÃO -->
+            <button id="btn-reset-selection" class="btn-reset-filters" title="Limpar seleção ativa de franquia">Reset Franquia</button>
         </div>
     </header>
 
-    <!-- GRÁFICOS (2 CARDS) -->
-    <section class="charts-section">
-        <div class="charts-container">
-            <!-- GRÁFICO 1: DISTRIBUIÇÃO DE TAGS E EM BRANCO -->
-            <div class="chart-card">
-                <div class="chart-title">Distribuição de Tags & Em Branco</div>
-                <div class="chart-wrapper">
-                    <canvas id="tagsChart"></canvas>
+    <!-- ==================== ABA 1: TAGS ==================== -->
+    <main id="tab-tags" class="tab-content">
+        <section class="charts-section">
+            <div class="charts-container">
+                <div class="chart-card">
+                    <div class="chart-title">Distribuição de Tags & Em Branco</div>
+                    <div class="chart-wrapper">
+                        <canvas id="tagsChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="chart-card">
+                    <div class="chart-title">Anotações Vencidas vs Válidas (Total Preenchidas)</div>
+                    <div class="chart-wrapper">
+                        <canvas id="vencidasChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="table-section">
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th class="sortable" data-col="totalInadsNum"><span>Rank <i class="sort-icon">↕</i></span></th>
+                            <th class="sortable" data-col="franchiseClean"><span>Franquia <i class="sort-icon">↕</i></span></th>
+                            <th class="sortable" data-col="totalInadsNum"><span>Total Inads <i class="sort-icon">↕</i></span></th>
+                            <th class="sortable" data-col="anotacoesVencidasNum"><span>Anotações Vencidas <i class="sort-icon">↕</i></span></th>
+                            <th class="sortable" data-col="emBrancoNum"><span>Em Branco <i class="sort-icon">↕</i></span></th>
+                            <th class="sortable" data-col="pctPreenchimentoNum"><span>% Preench. <i class="sort-icon">↕</i></span></th>
+                            
+                            <!-- Coluna Dinâmica de TAGs (com Select embutido) -->
+                            <th class="sortable" data-col="dynamicTag">
+                                <span style="padding-left: 0.2rem; padding-right: 0.2rem; width: 100%;">
+                                    <select id="dynamic-tag-select" class="table-select">
+                                        <option value="criticalCustomerNum">Cliente Crítico</option>
+                                        <option value="inCollectionNum">Em Cobrança</option>
+                                        <option value="inProgressNum">Tratativa em Andamento</option>
+                                        <option value="negotiatedNum">Negociado</option>
+                                        <option value="pendingActionNum">Pendente Tratativa</option>
+                                        <option value="churnFirstDayNum">Churn M0</option>
+                                        <option value="duplicateNum">Duplicidade</option>
+                                    </select>
+                                    <i class="sort-icon">↕</i>
+                                </span>
+                            </th>
+                            
+                            <!-- Colunas Centralizadas -->
+                            <th class="sortable text-center" data-col="hunter"><span>Hunter <i class="sort-icon">↕</i></span></th>
+                            <th class="sortable text-center" data-col="regional"><span>Regional <i class="sort-icon">↕</i></span></th>
+                            <th class="sortable text-center" data-col="horizonteSigla"><span>Horizonte <i class="sort-icon">↕</i></span></th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-body">
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <!-- ==================== ABA 2: DIAS ==================== -->
+    <main id="tab-dias" class="tab-content active">
+        <section class="calendar-section">
+            <div class="calendar-header-card">
+                <div class="month-stepper">
+                    <button id="btn-prev-month" class="btn-month-nav" title="Mês Anterior">&larr;</button>
+                    <div id="calendar-month-label" class="current-month-display" title="Clique para ver o mapa anual de calor">
+                        <span id="calendar-month-text">OUTUBRO 2026</span>
+                        <span class="dropdown-hint">▼</span>
+                    </div>
+                    <button id="btn-next-month" class="btn-month-nav" title="Próximo Mês">&rarr;</button>
+                    <button id="btn-current-month" class="btn-today">HOJE</button>
+                </div>
+
+                <div class="heatmap-legend-wrap">
+                    <span>Frio (R$ 0)</span>
+                    <div class="legend-continuous-bar" title="Espectro Térmico Contínuo: Ciano -> Verde Esmeralda -> Verde Limão -> Amarelo -> Laranja -> Vermelho Incandescente"></div>
+                    <span>Quente (Pico)</span>
                 </div>
             </div>
 
-            <!-- GRÁFICO 2: ANOTAÇÕES VENCIDAS VS VÁLIDAS (TOTAL PREENCHIDAS) -->
-            <div class="chart-card">
-                <div class="chart-title">Anotações Vencidas vs Válidas (Total Preenchidas)</div>
-                <div class="chart-wrapper">
-                    <canvas id="vencidasChart"></canvas>
+            <!-- Resumo KPI do Mês -->
+            <div class="calendar-kpi-bar">
+                <div class="cal-kpi-card">
+                    <span class="cal-kpi-label">Total em Aberto no Mês</span>
+                    <span id="cal-kpi-total-val" class="cal-kpi-value">R$ 0,00</span>
+                    <span id="cal-kpi-total-sub" class="cal-kpi-sub">0 parcelas em aberto</span>
+                </div>
+                <div class="cal-kpi-card">
+                    <span class="cal-kpi-label">Vencido vs A Vencer</span>
+                    <span id="cal-kpi-vencido-val" class="cal-kpi-value" style="color: #ff5252;">R$ 0,00</span>
+                    <span id="cal-kpi-avencer-sub" class="cal-kpi-sub">A Vencer: R$ 0,00</span>
+                </div>
+                <div class="cal-kpi-card">
+                    <span class="cal-kpi-label">Dia de Maior Pico (Mais Quente)</span>
+                    <span id="cal-kpi-peak-day" class="cal-kpi-value">-</span>
+                    <span id="cal-kpi-peak-val" class="cal-kpi-sub">R$ 0,00</span>
+                </div>
+                <div class="cal-kpi-card">
+                    <span class="cal-kpi-label">Franquias com Vencimento</span>
+                    <span id="cal-kpi-franchises-count" class="cal-kpi-value">0</span>
+                    <span id="cal-kpi-selected-unit-sub" class="cal-kpi-sub">Todas as unidades</span>
+                </div>
+            </div>
+
+            <!-- Grid do Calendário -->
+            <div class="calendar-grid-container">
+                <div class="weekdays-grid">
+                    <div class="weekday-label">Dom</div>
+                    <div class="weekday-label">Seg</div>
+                    <div class="weekday-label">Ter</div>
+                    <div class="weekday-label">Qua</div>
+                    <div class="weekday-label">Qui</div>
+                    <div class="weekday-label">Sex</div>
+                    <div class="weekday-label">Sáb</div>
+                </div>
+
+                <div id="calendar-days-grid" class="days-grid">
+                    <!-- Gerado dinamicamente via JS -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- MODAL DE DETALHES DO DIA SELECIONADO -->
+    <div id="day-modal" class="modal-overlay">
+        <div class="modal-card">
+            <div class="modal-header">
+                <div class="modal-title">
+                    <span style="color: var(--v4-red); font-size: 1.1rem;">📅</span>
+                    <span id="modal-date-label">Vencimentos em Aberto</span>
+                </div>
+                <button id="btn-close-modal" class="btn-modal-close" title="Fechar">&times;</button>
+            </div>
+            <div class="modal-body">
+                <!-- 3 CARDS: Valor Total do Dia (cor dinâmica), Franquias e Parcelas -->
+                <div class="modal-stats">
+                    <div class="modal-stat-box">
+                        <div class="modal-stat-lbl">Valor Total do Dia</div>
+                        <div id="modal-total-value" class="modal-stat-val">R$ 0,00</div>
+                    </div>
+                    <div class="modal-stat-box">
+                        <div class="modal-stat-lbl">Franquias</div>
+                        <div id="modal-franchises-val" class="modal-stat-val" style="color: #ffffff;">0</div>
+                    </div>
+                    <div class="modal-stat-box">
+                        <div class="modal-stat-lbl">Parcelas</div>
+                        <div id="modal-installments-val" class="modal-stat-val" style="color: #ffffff;">0</div>
+                    </div>
+                </div>
+
+                <!-- TABELA DO MODAL: Sem coluna de status e com coluna Parcelas -->
+                <div style="overflow-x: auto;">
+                    <table class="modal-table">
+                        <thead>
+                            <tr>
+                                <th>Franquia</th>
+                                <th>Hunter</th>
+                                <th>Regional</th>
+                                <th>Horizonte</th>
+                                <th class="text-right">Parcelas</th>
+                                <th class="text-right col-valor">Valor Rateado (R$)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="modal-table-body">
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
 
-    <!-- TABELA -->
-    <section class="table-section">
-        <div class="table-wrapper">
-            <table>
-                <thead>
-                    <tr>
-                        <th class="sortable" data-col="totalInadsNum"><span>Rank <i class="sort-icon">↕</i></span></th>
-                        <th class="sortable" data-col="franchiseClean"><span>Franquia <i class="sort-icon">↕</i></span></th>
-                        <th class="sortable" data-col="totalInadsNum"><span>Total Inads <i class="sort-icon">↕</i></span></th>
-                        <th class="sortable" data-col="anotacoesVencidasNum"><span>Anotações Vencidas <i class="sort-icon">↕</i></span></th>
-                        <th class="sortable" data-col="emBrancoNum"><span>Em Branco <i class="sort-icon">↕</i></span></th>
-                        <th class="sortable" data-col="pctPreenchimentoNum"><span>% Preench. <i class="sort-icon">↕</i></span></th>
-                        
-                        <!-- Coluna Dinâmica de TAGs (com Select embutido) -->
-                        <th class="sortable" data-col="dynamicTag">
-                            <span style="padding-left: 0.2rem; padding-right: 0.2rem; width: 100%;">
-                                <select id="dynamic-tag-select" class="table-select">
-                                    <option value="criticalCustomerNum">Cliente Crítico</option>
-                                    <option value="inCollectionNum">Em Cobrança</option>
-                                    <option value="inProgressNum">Tratativa em Andamento</option>
-                                    <option value="negotiatedNum">Negociado</option>
-                                    <option value="pendingActionNum">Pendente Tratativa</option>
-                                    <option value="churnFirstDayNum">Churn M0</option>
-                                    <option value="duplicateNum">Duplicidade</option>
-                                </select>
-                                <i class="sort-icon">↕</i>
-                            </span>
-                        </th>
-                        
-                        <!-- Colunas alinhadas ao centro -->
-                        <th class="sortable text-center" data-col="hunter"><span>Hunter <i class="sort-icon">↕</i></span></th>
-                        <th class="sortable text-center" data-col="regional"><span>Regional <i class="sort-icon">↕</i></span></th>
-                        <th class="sortable text-center" data-col="horizonteSigla"><span>Horizonte <i class="sort-icon">↕</i></span></th>
-                    </tr>
-                </thead>
-                <tbody id="table-body">
-                </tbody>
-            </table>
+    <!-- MODAL DE VISÃO ANUAL EM MINIATURAS (HEATMAP ANUAL) -->
+    <div id="year-overview-modal" class="modal-overlay">
+        <div class="modal-card modal-overview-card">
+            <div class="modal-header">
+                <div class="modal-title">
+                    <span style="color: var(--v4-red); font-size: 1.1rem;">🗓️</span>
+                    <span>Mapa Anual de Calor - <span id="overview-year-label">2026</span></span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                    <div class="overview-year-controls">
+                        <button id="btn-overview-prev-year" class="btn-month-nav" title="Ano Anterior">&larr;</button>
+                        <span id="overview-year-nav-label" style="font-size: 0.85rem; font-weight: 800; color: #ffffff; min-width: 50px; text-align: center;">2026</span>
+                        <button id="btn-overview-next-year" class="btn-month-nav" title="Próximo Ano">&rarr;</button>
+                    </div>
+                    <button id="btn-close-overview-modal" class="btn-modal-close" title="Fechar">&times;</button>
+                </div>
+            </div>
+            <div class="modal-body" style="padding: 1rem;">
+                <div class="overview-instruction">
+                    Clique em qualquer mês para abrir a visão detalhada no calendário principal.
+                </div>
+                <div id="months-mini-grid" class="months-mini-grid">
+                    <!-- Gerado dinamicamente via JS -->
+                </div>
+            </div>
         </div>
-    </section>
+    </div>
 
     <script>
+        const fallbackEmbeddedData = [
+            {"franchise": "V4 Company Nunes & Associados", "churn_first_day": 0, "critical_customer": 61, "duplicate": 0, "in_collection": 1, "in_progress": 3, "negotiated": 4, "pending_action": 0, "em_branco": 37, "anotacoes_vencidas": 62, "total_inads": 106, "hunter": "Gerson Xavier", "regional": "NUNES", "horizonte": "H5 - Diretor / Regional"},
+            {"franchise": "V4 Company Menezes & Co.", "churn_first_day": 0, "critical_customer": 4, "duplicate": 0, "in_collection": 1, "in_progress": 0, "negotiated": 0, "pending_action": 0, "em_branco": 3, "anotacoes_vencidas": 5, "total_inads": 8, "hunter": "Bruno Ferreira", "regional": "MG2", "horizonte": "H3 - Gerente - 150k a 450k"},
+            {"franchise": "V4 Company Coimbra & Associados", "churn_first_day": 0, "critical_customer": 10, "duplicate": 0, "in_collection": 4, "in_progress": 0, "negotiated": 2, "pending_action": 0, "em_branco": 7, "anotacoes_vencidas": 0, "total_inads": 23, "hunter": "Bruno Ferreira", "regional": "MG2", "horizonte": "H3 - Gerente - 150k a 450k"},
+            {"franchise": "V4 Company Aguiar & Associados", "churn_first_day": 3, "critical_customer": 7, "duplicate": 0, "in_collection": 2, "in_progress": 0, "negotiated": 1, "pending_action": 0, "em_branco": 5, "anotacoes_vencidas": 7, "total_inads": 18, "hunter": "Bruno Ferreira", "regional": "MG1", "horizonte": "H4 - Gerente Maturada - 450k a 900k"},
+            {"franchise": "V4 Colli & Co.", "churn_first_day": 0, "critical_customer": 66, "duplicate": 0, "in_collection": 25, "in_progress": 30, "negotiated": 9, "pending_action": 2, "em_branco": 64, "anotacoes_vencidas": 116, "total_inads": 196, "hunter": "Gerson Xavier", "regional": "COLLI", "horizonte": "H5 - Diretor / Regional"},
+            {"franchise": "V4 Company Leal Vieira & Co.", "churn_first_day": 0, "critical_customer": 2, "duplicate": 0, "in_collection": 0, "in_progress": 0, "negotiated": 0, "pending_action": 0, "em_branco": 4, "anotacoes_vencidas": 0, "total_inads": 6, "hunter": "Mariana Giampaoli", "regional": "NE", "horizonte": "H2 - Coordenadora - 60k a 150k"},
+            {"franchise": "V4 Company SBF & Co", "churn_first_day": 0, "critical_customer": 5, "duplicate": 0, "in_collection": 3, "in_progress": 2, "negotiated": 2, "pending_action": 1, "em_branco": 3, "anotacoes_vencidas": 3, "total_inads": 16, "hunter": "Bruno Ferreira", "regional": "MG1", "horizonte": "H2 - Coordenadora - 60k a 150k"},
+            {"franchise": "V4 Company V4 FRANZNER & Co.", "churn_first_day": 0, "critical_customer": 2, "duplicate": 0, "in_collection": 3, "in_progress": 0, "negotiated": 0, "pending_action": 0, "em_branco": 2, "anotacoes_vencidas": 0, "total_inads": 7, "hunter": null, "regional": "RJ", "horizonte": "H3 - Gerente - 150k a 450k"},
+            {"franchise": "V4 Company MS & Co", "churn_first_day": 0, "critical_customer": 2, "duplicate": 0, "in_collection": 1, "in_progress": 0, "negotiated": 0, "pending_action": 1, "em_branco": 4, "anotacoes_vencidas": 2, "total_inads": 8, "hunter": "Mariana Giampaoli", "regional": "NE", "horizonte": "H1 - SOS - até 60k"},
+            {"franchise": "V4 Company Telles Freire & Associados", "churn_first_day": 0, "critical_customer": 8, "duplicate": 0, "in_collection": 2, "in_progress": 0, "negotiated": 3, "pending_action": 0, "em_branco": 24, "anotacoes_vencidas": 1, "total_inads": 37, "hunter": "Mariana Giampaoli", "regional": "NE", "horizonte": "H5 - Diretor / Regional"},
+            {"franchise": "V4 Company Matta & Associados", "churn_first_day": 0, "critical_customer": 1, "duplicate": 0, "in_collection": 0, "in_progress": 0, "negotiated": 0, "pending_action": 0, "em_branco": 4, "anotacoes_vencidas": 1, "total_inads": 5, "hunter": "Deborah Reynaldo", "regional": "SP3", "horizonte": "H2 - Coordenadora - 60k a 150k"},
+            {"franchise": "V4 Company Andrade e Oliveira & Co.", "churn_first_day": 0, "critical_customer": 1, "duplicate": 0, "in_collection": 0, "in_progress": 3, "negotiated": 0, "pending_action": 0, "em_branco": 1, "anotacoes_vencidas": 0, "total_inads": 5, "hunter": "Deborah Reynaldo", "regional": "SC", "horizonte": "H2 - Coordenadora - 60k a 150k"},
+            {"franchise": "V4 Company Kuri & Associados", "churn_first_day": 0, "critical_customer": 10, "duplicate": 1, "in_collection": 13, "in_progress": 0, "negotiated": 5, "pending_action": 0, "em_branco": 29, "anotacoes_vencidas": 6, "total_inads": 58, "hunter": "Gerson Xavier", "regional": "PR", "horizonte": "H5 - Diretor / Regional"},
+            {"franchise": "V4 Company Prates Hanzava & Co", "churn_first_day": 0, "critical_customer": 2, "duplicate": 0, "in_collection": 2, "in_progress": 0, "negotiated": 0, "pending_action": 2, "em_branco": 7, "anotacoes_vencidas": 0, "total_inads": 13, "hunter": "Izabela Mattano", "regional": "RS", "horizonte": "H2 - Coordenadora - 60k a 150k"},
+            {"franchise": "V4 Company Sepulvida & Co.", "churn_first_day": 0, "critical_customer": 1, "duplicate": 0, "in_collection": 0, "in_progress": 0, "negotiated": 2, "pending_action": 0, "em_branco": 4, "anotacoes_vencidas": 0, "total_inads": 7, "hunter": "Bruno Ferreira", "regional": "MG2", "horizonte": "H2 - Coordenadora - 60k a 150k"},
+            {"franchise": "V4 Company Araujo & Co.", "churn_first_day": 0, "critical_customer": 2, "duplicate": 0, "in_collection": 1, "in_progress": 3, "negotiated": 4, "pending_action": 0, "em_branco": 4, "anotacoes_vencidas": 1, "total_inads": 14, "hunter": "Mariana Giampaoli", "regional": "RJ", "horizonte": "H2 - Coordenadora - 60k a 150k"},
+            {"franchise": "V4 Company Olcana & Co.", "churn_first_day": 0, "critical_customer": 1, "duplicate": 0, "in_collection": 6, "in_progress": 0, "negotiated": 0, "pending_action": 0, "em_branco": 1, "anotacoes_vencidas": 1, "total_inads": 8, "hunter": "Izabela Mattano", "regional": "SP1", "horizonte": "H3 - Gerente - 150k a 450k"},
+            {"franchise": "V4 Company Mundim & Associados", "churn_first_day": 1, "critical_customer": 7, "duplicate": 0, "in_collection": 5, "in_progress": 3, "negotiated": 9, "pending_action": 0, "em_branco": 33, "anotacoes_vencidas": 4, "total_inads": 58, "hunter": "Deborah Reynaldo", "regional": "MG1", "horizonte": "H4 - Gerente Maturada - 450k a 900k"},
+            {"franchise": "V4 Company Santos Gonçalves & Co", "churn_first_day": 0, "critical_customer": 1, "duplicate": 0, "in_collection": 4, "in_progress": 1, "negotiated": 0, "pending_action": 0, "em_branco": 4, "anotacoes_vencidas": 0, "total_inads": 10, "hunter": "Izabela Mattano", "regional": "RS", "horizonte": "H2 - Coordenadora - 60k a 150k"},
+            {"franchise": "V4 Company Antunes Bueno & Co", "churn_first_day": 0, "critical_customer": 1, "duplicate": 0, "in_collection": 6, "in_progress": 0, "negotiated": 0, "pending_action": 2, "em_branco": 2, "anotacoes_vencidas": 0, "total_inads": 11, "hunter": "Deborah Reynaldo", "regional": "SP3", "horizonte": "H3 - Gerente - 150k a 450k"},
+            {"franchise": "V4 Company Barcellos & Co", "churn_first_day": 1, "critical_customer": 2, "duplicate": 0, "in_collection": 3, "in_progress": 1, "negotiated": 2, "pending_action": 0, "em_branco": 13, "anotacoes_vencidas": 3, "total_inads": 22, "hunter": "Deborah Reynaldo", "regional": "SP3", "horizonte": "H3 - Gerente - 150k a 450k"},
+            {"franchise": "V4 Company Davi & Co.", "churn_first_day": 0, "critical_customer": 1, "duplicate": 0, "in_collection": 2, "in_progress": 0, "negotiated": 3, "pending_action": 0, "em_branco": 5, "anotacoes_vencidas": 0, "total_inads": 11, "hunter": "Izabela Mattano", "regional": "RS", "horizonte": "H3 - Gerente - 150k a 450k"},
+            {"franchise": "V4 Company Novaes & Co.", "churn_first_day": 0, "critical_customer": 2, "duplicate": 0, "in_collection": 5, "in_progress": 0, "negotiated": 4, "pending_action": 1, "em_branco": 11, "anotacoes_vencidas": 5, "total_inads": 23, "hunter": "Bruno Ferreira", "regional": "MG2", "horizonte": "H3 - Gerente - 150k a 450k"},
+            {"franchise": "V4 Company Canovas Mendes & Associados & Co.", "churn_first_day": 1, "critical_customer": 2, "duplicate": 0, "in_collection": 3, "in_progress": 1, "negotiated": 3, "pending_action": 5, "em_branco": 9, "anotacoes_vencidas": 3, "total_inads": 24, "hunter": "Bruno Ferreira", "regional": "MG2", "horizonte": "H4 - Gerente Maturada - 450k a 900k"},
+            {"franchise": "V4 Company Vieira & Associados", "churn_first_day": 0, "critical_customer": 1, "duplicate": 0, "in_collection": 0, "in_progress": 0, "negotiated": 2, "pending_action": 0, "em_branco": 11, "anotacoes_vencidas": 3, "total_inads": 14, "hunter": "Bruno Ferreira", "regional": "MG2", "horizonte": "H3 - Gerente - 150k a 450k"},
+            {"franchise": "V4 Company Jesus & Co.", "churn_first_day": 0, "critical_customer": 2, "duplicate": 0, "in_collection": 7, "in_progress": 2, "negotiated": 0, "pending_action": 2, "em_branco": 20, "anotacoes_vencidas": 3, "total_inads": 33, "hunter": "Deborah Reynaldo", "regional": "SC", "horizonte": "H3 - Gerente - 150k a 450k"},
+            {"franchise": "V4 Company Oliveira Gasparetto & Co.", "churn_first_day": 1, "critical_customer": 3, "duplicate": 1, "in_collection": 9, "in_progress": 1, "negotiated": 25, "pending_action": 0, "em_branco": 10, "anotacoes_vencidas": 3, "total_inads": 50, "hunter": null, "regional": "RS", "horizonte": "H5 - Diretor / Regional"},
+            {"franchise": "V4 Company Bilinski & Associados", "churn_first_day": 7, "critical_customer": 5, "duplicate": 0, "in_collection": 19, "in_progress": 13, "negotiated": 19, "pending_action": 0, "em_branco": 21, "anotacoes_vencidas": 14, "total_inads": 84, "hunter": "Deborah Reynaldo", "regional": "SP3", "horizonte": "H5 - Diretor / Regional"},
+            {"franchise": "V4 Company Amaral & Associados", "churn_first_day": 2, "critical_customer": 3, "duplicate": 0, "in_collection": 3, "in_progress": 1, "negotiated": 3, "pending_action": 0, "em_branco": 39, "anotacoes_vencidas": 11, "total_inads": 51, "hunter": "Bruno Ferreira", "regional": "SP1", "horizonte": "H5 - Diretor / Regional"}
+        ];
+
         let allData = [];
+        let dados2Parsed = [];
         let currentSortCol = 'totalInadsNum';
         let currentSortDir = 'desc';
         let selectedFranchiseName = null;
 
+        let currentView = 'dias';
+
+        // Data de corte padrão (referência do dataset: 20 de Outubro de 2026)
+        const TODAY_DAY = 20;
+        const TODAY_MONTH = 9; // 0-indexed: 9 = Outubro
+        const TODAY_YEAR = 2026;
+
+        let calendarYear = TODAY_YEAR;
+        let calendarMonth = TODAY_MONTH;
+        let overviewModalYear = TODAY_YEAR;
+
         let chart1Instance = null;
         let chart2Instance = null;
+        let currentDayBuckets = {};
 
-        // Configuração Global Chart.js para textos brancos
         Chart.defaults.color = '#ffffff';
 
-        // AUXILIARES
         function parseBrInt(val) {
             if (val === undefined || val === null || val === '') return 0;
-            if (typeof val === 'number') return val;
+            if (typeof val === 'number') return Math.round(val);
             let s = val.toString().replace(/\./g, '').trim();
             let n = parseInt(s, 10);
             return isNaN(n) ? 0 : n;
+        }
+
+        function parseBrFloat(val) {
+            if (val === undefined || val === null || val === '') return 0;
+            if (typeof val === 'number') return val;
+            let s = val.toString().replace(/\./g, '').replace(',', '.').trim();
+            let n = parseFloat(s);
+            return isNaN(n) ? 0 : n;
+        }
+
+        function parseBrDate(dtStr) {
+            if (!dtStr) return null;
+            const parts = dtStr.toString().trim().split('/');
+            if (parts.length < 3) return null;
+            const day = parseInt(parts[0], 10);
+            const month = parseInt(parts[1], 10) - 1; // 0-indexed
+            const year = parseInt(parts[2], 10);
+            if (isNaN(day) || isNaN(month) || isNaN(year)) return null;
+            return { day, month, year, dateObj: new Date(year, month, day) };
         }
 
         function cleanUnitName(name) {
@@ -436,14 +1299,73 @@
             return parts[0].toUpperCase();
         }
 
-        // CARREGAR DADOS
+        function formatCurrencyBRL(val) {
+            return (val || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL', maximumFractionDigits: 0 });
+        }
+
+        function formatCurrencyDetailed(val) {
+            return (val || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL', minimumFractionDigits: 2 });
+        }
+
         async function loadData() {
             try {
-                const response = await fetch('dados.json');
-                if (!response.ok) throw new Error('Erro ao carregar dados.json');
-                const rawData = await response.json();
+                let rawDados2 = [];
+                try {
+                    let res2 = await fetch('dados2.json').catch(() => null);
+                    if (!res2 || !res2.ok) {
+                        res2 = await fetch('query_result_2026-10-20T10_03_23.199455588-03_00.json').catch(() => null);
+                    }
+                    if (res2 && res2.ok) {
+                        rawDados2 = await res2.json();
+                    } else {
+                        throw new Error('Arquivo local dados2 não encontrado');
+                    }
+                } catch (e) {
+                    console.warn('Utilizando dataset anexado como fallback para dados2:', e);
+                    rawDados2 = window.fallbackDados2Snippet || [];
+                }
 
-                allData = rawData.map(item => {
+                const todayRefDate = new Date(TODAY_YEAR, TODAY_MONTH, TODAY_DAY, 23, 59, 59);
+
+                dados2Parsed = rawDados2.map(item => {
+                    const dateParsed = parseBrDate(item.dt_vencimento);
+                    const amount = parseBrFloat(item.vlr_aberto_rateado);
+                    const count = parseBrInt(item.qtd_vencimentos_em_aberto);
+                    const cleanFranchise = cleanUnitName(item.franchise);
+                    const hunter = item.str_account && item.str_account.trim() ? item.str_account.trim() : 'Não Atribuído';
+                    const regional = item.sigla_regional && item.sigla_regional.trim() && item.sigla_regional !== 'Sem preenchimento' ? item.sigla_regional.trim() : 'N/A';
+                    const horizonteSigla = getHorizonteSigla(item.horizonte);
+
+                    const isVencido = dateParsed ? (dateParsed.dateObj <= todayRefDate) : false;
+                    const status = isVencido ? 'Inadimplente (Vencido)' : 'A Vencer';
+
+                    return {
+                        ...item,
+                        dateParsed,
+                        day: dateParsed ? dateParsed.day : null,
+                        month: dateParsed ? dateParsed.month : null,
+                        year: dateParsed ? dateParsed.year : null,
+                        amount,
+                        count,
+                        cleanFranchise,
+                        hunter,
+                        regional,
+                        horizonteSigla,
+                        status
+                    };
+                });
+
+                let rawDataTags = [];
+                try {
+                    const response = await fetch('dados.json');
+                    if (!response.ok) throw new Error('Não foi possível ler dados.json local');
+                    rawDataTags = await response.json();
+                } catch (fetchErr) {
+                    console.warn('Utilizando dataset fallback pré-carregado para TAGS:', fetchErr);
+                    rawDataTags = fallbackEmbeddedData;
+                }
+
+                allData = rawDataTags.map(item => {
                     const totalInadsNum = parseBrInt(item.total_inads);
                     const emBrancoNum = parseBrInt(item.em_branco);
                     const pctPreenchimentoNum = totalInadsNum > 0 ? ((totalInadsNum - emBrancoNum) / totalInadsNum) * 100 : 0;
@@ -468,24 +1390,48 @@
                     };
                 });
 
-                populateFilters(allData);
+                populateFilters();
                 setupSortHeaders();
                 setupRowSelection();
                 setupDynamicColumn();
-                applyFilterAndSort();
+                setupViewSwitcher();
+                setupCalendarNavigation();
+                setupModal();
+                setupResetSelectionButton();
+
+                switchView(currentView);
+                applyFilters();
             } catch (err) {
-                console.error(err);
-                document.getElementById('table-body').innerHTML = `<tr><td colspan="10" style="text-align:center; color:var(--v4-red);">Erro ao carregar o arquivo 'dados.json'. Certifique-se de que ele está presente na raiz.</td></tr>`;
+                console.error('Erro na inicialização:', err);
             }
         }
 
-        // POPULAR FILTROS
-        function populateFilters(data) {
+        function populateFilters() {
+            const franchiseFilter = document.getElementById('franchise-filter');
             const hunterFilter = document.getElementById('hunter-filter');
             const regionalFilter = document.getElementById('regional-filter');
             const horizonteFilter = document.getElementById('horizonte-filter');
 
-            const hunters = [...new Set(data.map(i => i.hunter).filter(h => h && h !== 'Não Atribuído'))].sort();
+            // Popula Dropdown de Franquias
+            franchiseFilter.innerHTML = '<option value="all">Todas as Franquias</option>';
+            const franqD2 = dados2Parsed.map(i => i.cleanFranchise);
+            const franqTags = allData.map(i => i.franchiseClean);
+            const franchises = [...new Set([...franqD2, ...franqTags].filter(Boolean))].sort((a, b) => a.localeCompare(b));
+            franchises.forEach(f => {
+                const opt = document.createElement('option');
+                opt.value = f;
+                opt.textContent = f;
+                franchiseFilter.appendChild(opt);
+            });
+
+            franchiseFilter.addEventListener('change', (e) => {
+                selectedFranchiseName = e.target.value === 'all' ? null : e.target.value;
+                applyFilters();
+            });
+
+            const huntersTags = allData.map(i => i.hunter);
+            const huntersD2 = dados2Parsed.map(i => i.hunter);
+            const hunters = [...new Set([...huntersTags, ...huntersD2].filter(h => h && h !== 'Não Atribuído'))].sort();
             hunters.forEach(h => {
                 const opt = document.createElement('option');
                 opt.value = h;
@@ -493,7 +1439,9 @@
                 hunterFilter.appendChild(opt);
             });
 
-            const regionais = [...new Set(data.map(i => i.regional).filter(r => r && r !== 'N/A'))].sort();
+            const regTags = allData.map(i => i.regional);
+            const regD2 = dados2Parsed.map(i => i.regional);
+            const regionais = [...new Set([...regTags, ...regD2].filter(r => r && r !== 'N/A'))].sort();
             regionais.forEach(r => {
                 const opt = document.createElement('option');
                 opt.value = r;
@@ -501,7 +1449,9 @@
                 regionalFilter.appendChild(opt);
             });
 
-            const horizontes = [...new Set(data.map(i => i.horizonteSigla).filter(h => h && h !== 'N/A'))].sort();
+            const hzTags = allData.map(i => i.horizonteSigla);
+            const hzD2 = dados2Parsed.map(i => i.horizonteSigla);
+            const horizontes = [...new Set([...hzTags, ...hzD2].filter(h => h && h !== 'N/A'))].sort();
             horizontes.forEach(h => {
                 const opt = document.createElement('option');
                 opt.value = h;
@@ -511,16 +1461,50 @@
 
             [hunterFilter, regionalFilter, horizonteFilter].forEach(el => {
                 el.addEventListener('change', () => {
-                    selectedFranchiseName = null; 
-                    applyFilterAndSort();
+                    applyFilters();
                 });
+            });
+        }
+
+        function setupViewSwitcher() {
+            const viewSelect = document.getElementById('view-mode-select');
+            viewSelect.addEventListener('change', (e) => {
+                currentView = e.target.value;
+                switchView(currentView);
+            });
+        }
+
+        function switchView(mode) {
+            const tabTags = document.getElementById('tab-tags');
+            const tabDias = document.getElementById('tab-dias');
+            const franchiseFilter = document.getElementById('franchise-filter');
+
+            if (mode === 'dias') {
+                tabTags.classList.remove('active');
+                tabDias.classList.add('active');
+                if (franchiseFilter) franchiseFilter.style.display = 'inline-block';
+            } else {
+                tabDias.classList.remove('active');
+                tabTags.classList.add('active');
+                if (franchiseFilter) franchiseFilter.style.display = 'none';
+            }
+            applyFilters();
+        }
+
+        function setupResetSelectionButton() {
+            const btn = document.getElementById('btn-reset-selection');
+            btn.addEventListener('click', () => {
+                selectedFranchiseName = null;
+                const ff = document.getElementById('franchise-filter');
+                if (ff) ff.value = 'all';
+                applyFilters();
             });
         }
 
         function setupDynamicColumn() {
             const selectEl = document.getElementById('dynamic-tag-select');
             selectEl.addEventListener('click', (e) => e.stopPropagation());
-            selectEl.addEventListener('change', () => applyFilterAndSort());
+            selectEl.addEventListener('change', () => applyFilters());
         }
 
         function setupSortHeaders() {
@@ -533,7 +1517,7 @@
                         currentSortCol = col;
                         currentSortDir = 'desc';
                     }
-                    applyFilterAndSort();
+                    applyFilters();
                 });
             });
         }
@@ -550,61 +1534,87 @@
                 } else {
                     selectedFranchiseName = fName;
                 }
-                applyFilterAndSort();
+                applyFilters();
             });
         }
 
-        function applyFilterAndSort() {
+        function setupCalendarNavigation() {
+            const prevBtn = document.getElementById('btn-prev-month');
+            const nextBtn = document.getElementById('btn-next-month');
+            const todayBtn = document.getElementById('btn-current-month');
+
+            prevBtn.addEventListener('click', () => {
+                calendarMonth--;
+                if (calendarMonth < 0) {
+                    calendarMonth = 11;
+                    calendarYear--;
+                }
+                renderCalendarView();
+            });
+
+            nextBtn.addEventListener('click', () => {
+                calendarMonth++;
+                if (calendarMonth > 11) {
+                    calendarMonth = 0;
+                    calendarYear++;
+                }
+                renderCalendarView();
+            });
+
+            todayBtn.addEventListener('click', () => {
+                calendarYear = TODAY_YEAR;
+                calendarMonth = TODAY_MONTH;
+                renderCalendarView();
+            });
+        }
+
+        function applyFilters() {
             const hVal = document.getElementById('hunter-filter').value;
             const rVal = document.getElementById('regional-filter').value;
             const hzVal = document.getElementById('horizonte-filter').value;
-            const titleEl = document.getElementById('page-main-title');
+            const franchiseFilter = document.getElementById('franchise-filter');
 
-            let filtered = allData;
-
-            if (hVal !== 'all') filtered = filtered.filter(i => i.hunter === hVal);
-            if (rVal !== 'all') filtered = filtered.filter(i => i.regional === rVal);
-            if (hzVal !== 'all') filtered = filtered.filter(i => i.horizonteSigla === hzVal);
-
-            if (selectedFranchiseName) {
-                const exists = filtered.some(i => i.franchiseClean === selectedFranchiseName);
-                if (!exists) selectedFranchiseName = null;
+            if (franchiseFilter && franchiseFilter.value !== (selectedFranchiseName || 'all')) {
+                franchiseFilter.value = selectedFranchiseName || 'all';
             }
 
-            if (selectedFranchiseName) {
-                titleEl.textContent = `TAGS: ${selectedFranchiseName}`;
-            } else if (hVal !== 'all') {
-                titleEl.textContent = `INADIMPLÊNCIA: ${hVal.toUpperCase()}`;
-            } else if (rVal !== 'all') {
-                titleEl.textContent = `INADIMPLÊNCIA: REGIONAL ${rVal}`;
-            } else if (hzVal !== 'all') {
-                titleEl.textContent = `INADIMPLÊNCIA: HORIZONTE ${hzVal}`;
-            } else {
-                titleEl.textContent = 'INADIMPLÊNCIA & TAGS';
-            }
+            if (currentView === 'tags') {
+                let filtered = allData;
+                if (hVal !== 'all') filtered = filtered.filter(i => i.hunter === hVal);
+                if (rVal !== 'all') filtered = filtered.filter(i => i.regional === rVal);
+                if (hzVal !== 'all') filtered = filtered.filter(i => i.horizonteSigla === hzVal);
 
-            let chartDataset = filtered;
-            if (selectedFranchiseName) {
-                chartDataset = allData.filter(i => i.franchiseClean === selectedFranchiseName);
-            }
-
-            updateCharts(chartDataset);
-
-            const dynamicTagValue = document.getElementById('dynamic-tag-select').value;
-            let sortKey = currentSortCol;
-            if (sortKey === 'dynamicTag') {
-                sortKey = dynamicTagValue;
-            }
-
-            const sorted = [...filtered].sort((a, b) => {
-                let valA = a[sortKey];
-                let valB = b[sortKey];
-                if (typeof valA === 'string') {
-                    return currentSortDir === 'asc' ? valA.localeCompare(valB) : valB.localeCompare(valA);
+                if (selectedFranchiseName) {
+                    const exists = filtered.some(i => i.franchiseClean === selectedFranchiseName);
+                    if (!exists) selectedFranchiseName = null;
                 }
-                return currentSortDir === 'asc' ? valA - valB : valB - valA;
-            });
 
+                let chartDataset = filtered;
+                if (selectedFranchiseName) {
+                    chartDataset = allData.filter(i => i.franchiseClean === selectedFranchiseName);
+                }
+                updateCharts(chartDataset);
+
+                const dynamicTagValue = document.getElementById('dynamic-tag-select').value;
+                let sortKey = currentSortCol === 'dynamicTag' ? dynamicTagValue : currentSortCol;
+
+                const sorted = [...filtered].sort((a, b) => {
+                    let valA = a[sortKey];
+                    let valB = b[sortKey];
+                    if (typeof valA === 'string') {
+                        return currentSortDir === 'asc' ? valA.localeCompare(valB) : valB.localeCompare(valA);
+                    }
+                    return currentSortDir === 'asc' ? valA - valB : valB - valA;
+                });
+
+                updateSortIcons();
+                renderTable(sorted, dynamicTagValue);
+            } else {
+                renderCalendarView();
+            }
+        }
+
+        function updateSortIcons() {
             document.querySelectorAll('th.sortable').forEach(th => {
                 const col = th.getAttribute('data-col');
                 const icon = th.querySelector('.sort-icon');
@@ -616,11 +1626,8 @@
                     icon.textContent = '↕';
                 }
             });
-
-            renderTable(sorted, dynamicTagValue);
         }
 
-        // PLUGIN DE LEGENDA PARA GARANTIR TEXTO BRANCO E FORMATO "VALOR (XX,XX%)"
         const customLegendCallback = function(chart) {
             const data = chart.data;
             if (data.labels.length && data.datasets.length) {
@@ -637,7 +1644,7 @@
                         strokeStyle: style.borderColor,
                         lineWidth: style.borderWidth,
                         fontColor: '#ffffff',
-                        hidden: isNaN(data.datasets[0].data[i]) || meta.data[i].hidden,
+                        hidden: isNaN(data.datasets[0].data[i]) || (meta.data[i] && meta.data[i].hidden),
                         index: i
                     };
                 });
@@ -666,7 +1673,6 @@
                             let value = context.raw || 0;
                             let total = context.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
                             let pctFormatted = total > 0 ? ((value / total) * 100).toFixed(2).replace('.', ',') + '%' : '0,00%';
-                            
                             return ` ${label}: ${value.toLocaleString('pt-BR')} (${pctFormatted})`;
                         }
                     }
@@ -695,12 +1701,10 @@
                 totalInads: 0, anotacoesVencidas: 0, emBranco: 0
             });
 
-            // Cores
             const corVermelho = '#E50914';
             const corVerdeGH = '#238636';
             const corBranca = '#FFFFFF';
 
-            // GRÁFICO 1: Distribuição de Tags + Em Branco em um único gráfico
             const ctx1 = document.getElementById('tagsChart').getContext('2d');
             if (chart1Instance) chart1Instance.destroy();
             chart1Instance = new Chart(ctx1, {
@@ -723,7 +1727,6 @@
                 options: commonChartOptions
             });
 
-            // GRÁFICO 2: Anotações Vencidas vs Anotações Válidas (sobre o Universo de Preenchidas)
             const totalPreenchidas = Math.max(0, totals.totalInads - totals.emBranco);
             const anotacoesValidas = Math.max(0, totalPreenchidas - totals.anotacoesVencidas);
 
@@ -775,10 +1778,8 @@
                         <td style="color: #ffd700;">${row.emBrancoNum.toLocaleString('pt-BR')}</td>
                         <td style="color: #00E676; font-weight: 700;">${row.pctPreenchimentoNum.toFixed(2).replace('.', ',')}%</td>
                         
-                        <!-- Coluna Dinâmica -->
                         <td style="color: #92e0ff; font-weight: 700;">${dynamicTagValue.toLocaleString('pt-BR')}</td>
 
-                        <!-- Colunas Centralizadas -->
                         <td class="hunter-col text-center" title="${row.hunter}">${row.hunter}</td>
                         <td class="regional-col text-center" title="${row.regional}">${row.regional}</td>
                         <td class="horizonte-col text-center" title="${row.horizonteSigla}">${row.horizonteSigla}</td>
@@ -788,6 +1789,524 @@
 
             tableBody.innerHTML = html;
         }
+
+        function getYearMaxDayAmount(year) {
+            const hVal = document.getElementById('hunter-filter') ? document.getElementById('hunter-filter').value : 'all';
+            const rVal = document.getElementById('regional-filter') ? document.getElementById('regional-filter').value : 'all';
+            const hzVal = document.getElementById('horizonte-filter') ? document.getElementById('horizonte-filter').value : 'all';
+
+            const daySums = {};
+            dados2Parsed.forEach(rec => {
+                if (rec.year !== year) return;
+                if (hVal !== 'all' && rec.hunter !== hVal) return;
+                if (rVal !== 'all' && rec.regional !== rVal) return;
+                if (hzVal !== 'all' && rec.horizonteSigla !== hzVal) return;
+                if (selectedFranchiseName && rec.cleanFranchise !== selectedFranchiseName) return;
+
+                if (rec.month !== null && rec.day !== null) {
+                    const key = `${rec.month}_${rec.day}`;
+                    daySums[key] = (daySums[key] || 0) + rec.amount;
+                }
+            });
+
+            let maxVal = 0;
+            for (const key in daySums) {
+                if (daySums[key] > maxVal) {
+                    maxVal = daySums[key];
+                }
+            }
+            return maxVal > 0 ? maxVal : 1;
+        }
+
+        function interpolateThermalColor(t) {
+            t = Math.max(0, Math.min(1, t));
+            const stops = [
+                { p: 0.00, r: 6,   g: 182, b: 212 }, // Ciano Frio
+                { p: 0.20, r: 16,  g: 185, b: 129 }, // Verde Esmeralda
+                { p: 0.40, r: 132, g: 204, b: 22  }, // Verde Limão
+                { p: 0.60, r: 234, g: 179, b: 8   }, // Amarelo Ouro
+                { p: 0.80, r: 249, g: 115, b: 22  }, // Laranja
+                { p: 1.00, r: 255, g: 26,  b: 38  }  // Vermelho Incandescente
+            ];
+
+            let i = 0;
+            while (i < stops.length - 1 && stops[i + 1].p < t) {
+                i++;
+            }
+            const s1 = stops[i];
+            const s2 = stops[Math.min(i + 1, stops.length - 1)];
+            const range = (s2.p - s1.p) || 1;
+            const factor = Math.max(0, Math.min(1, (t - s1.p) / range));
+
+            const r = Math.round(s1.r + (s2.r - s1.r) * factor);
+            const g = Math.round(s1.g + (s2.g - s1.g) * factor);
+            const b = Math.round(s1.b + (s2.b - s1.b) * factor);
+            return { r, g, b };
+        }
+
+        function calculateHeatmapStyle(amount, maxAmount) {
+            if (!amount || amount === 0 || !maxAmount || maxAmount === 0) {
+                return {
+                    background: '#151515',
+                    borderColor: 'rgba(255, 255, 255, 0.05)',
+                    glow: 'none',
+                    progressPct: 0,
+                    fillColor: 'rgba(255, 255, 255, 0.1)',
+                    solidColor: '#151515',
+                    textColor: 'rgba(255, 255, 255, 0.4)'
+                };
+            }
+
+            const linearRatio = Math.max(0.001, Math.min(1, amount / maxAmount));
+            // Curva perceptual de potência para distribuir organicamente os tons entre baixos, médios e picos
+            const t = Math.pow(linearRatio, 0.55);
+            const { r, g, b } = interpolateThermalColor(t);
+
+            const bgAlpha = 0.22 + 0.60 * t;
+            const borderAlpha = 0.40 + 0.58 * t;
+            const glow = t > 0.60 ? `0 0 ${Math.round(8 + 14 * t)}px rgba(${r}, ${g}, ${b}, ${(0.35 + 0.5 * t).toFixed(2)})` : 'none';
+            const progressPct = Math.round(linearRatio * 100);
+
+            return {
+                background: `rgba(${r}, ${g}, ${b}, ${bgAlpha.toFixed(2)})`,
+                borderColor: `rgba(${r}, ${g}, ${b}, ${borderAlpha.toFixed(2)})`,
+                glow,
+                progressPct,
+                fillColor: `rgb(${r}, ${g}, ${b})`,
+                solidColor: `rgba(${r}, ${g}, ${b}, 0.88)`,
+                textColor: '#ffffff'
+            };
+        }
+
+        const monthNames = [
+            'JANEIRO', 'FEVEREIRO', 'MARÇO', 'ABRIL', 'MAIO', 'JUNHO',
+            'JULHO', 'AGOSTO', 'SETEMBRO', 'OUTUBRO', 'NOVEMBRO', 'DEZEMBRO'
+        ];
+
+        function renderCalendarView() {
+            const hVal = document.getElementById('hunter-filter').value;
+            const rVal = document.getElementById('regional-filter').value;
+            const hzVal = document.getElementById('horizonte-filter').value;
+
+            const monthText = document.getElementById('calendar-month-text');
+            if (monthText) {
+                monthText.textContent = `${monthNames[calendarMonth]} ${calendarYear}`;
+            }
+
+            const daysInMonth = new Date(calendarYear, calendarMonth + 1, 0).getDate();
+            const firstDayIndex = new Date(calendarYear, calendarMonth, 1).getDay();
+
+            const filteredRecords = dados2Parsed.filter(rec => {
+                if (rec.year !== calendarYear || rec.month !== calendarMonth) return false;
+                if (hVal !== 'all' && rec.hunter !== hVal) return false;
+                if (rVal !== 'all' && rec.regional !== rVal) return false;
+                if (hzVal !== 'all' && rec.horizonteSigla !== hzVal) return false;
+                if (selectedFranchiseName && rec.cleanFranchise !== selectedFranchiseName) return false;
+                return true;
+            });
+
+            const dayBuckets = {};
+            for (let d = 1; d <= daysInMonth; d++) {
+                dayBuckets[d] = {
+                    day: d,
+                    amount: 0,
+                    count: 0,
+                    vencidoAmount: 0,
+                    aVencerAmount: 0,
+                    items: []
+                };
+            }
+
+            filteredRecords.forEach(rec => {
+                const d = rec.day;
+                if (d && dayBuckets[d]) {
+                    dayBuckets[d].amount += rec.amount;
+                    dayBuckets[d].count += rec.count;
+                    if (rec.status.includes('Vencido')) {
+                        dayBuckets[d].vencidoAmount += rec.amount;
+                    } else {
+                        dayBuckets[d].aVencerAmount += rec.amount;
+                    }
+                    dayBuckets[d].items.push(rec);
+                }
+            });
+
+            currentDayBuckets = dayBuckets;
+
+            let maxDayAmount = 0;
+            let totalMonthAmount = 0;
+            let totalMonthCount = 0;
+            let totalVencido = 0;
+            let totalAVencer = 0;
+            let peakDay = null;
+
+            for (let d = 1; d <= daysInMonth; d++) {
+                const val = dayBuckets[d].amount;
+                totalMonthAmount += val;
+                totalMonthCount += dayBuckets[d].count;
+                totalVencido += dayBuckets[d].vencidoAmount;
+                totalAVencer += dayBuckets[d].aVencerAmount;
+                if (val > maxDayAmount) {
+                    maxDayAmount = val;
+                    peakDay = d;
+                }
+            }
+
+            const uniqueFranchisesInMonth = new Set(filteredRecords.map(r => r.cleanFranchise)).size;
+
+            document.getElementById('cal-kpi-total-val').textContent = formatCurrencyBRL(totalMonthAmount);
+            document.getElementById('cal-kpi-total-sub').textContent = `${totalMonthCount.toLocaleString('pt-BR')} parcelas no filtro`;
+            document.getElementById('cal-kpi-vencido-val').textContent = formatCurrencyBRL(totalVencido);
+            document.getElementById('cal-kpi-avencer-sub').textContent = `A Vencer: ${formatCurrencyBRL(totalAVencer)}`;
+            document.getElementById('cal-kpi-peak-day').textContent = peakDay ? `Dia ${String(peakDay).padStart(2, '0')}` : '-';
+            document.getElementById('cal-kpi-peak-val').textContent = peakDay ? formatCurrencyBRL(maxDayAmount) : 'R$ 0';
+            document.getElementById('cal-kpi-franchises-count').textContent = uniqueFranchisesInMonth.toLocaleString('pt-BR');
+            document.getElementById('cal-kpi-selected-unit-sub').textContent = selectedFranchiseName ? `Filtrado: ${selectedFranchiseName}` : 'Todas as unidades';
+
+            // Escala anual unificada compartilhada entre todos os meses e a miniatura
+            const annualMaxDay = getYearMaxDayAmount(calendarYear);
+            const effectiveMax = Math.max(annualMaxDay, maxDayAmount);
+
+            const daysGrid = document.getElementById('calendar-days-grid');
+            let gridHtml = '';
+
+            for (let e = 0; e < firstDayIndex; e++) {
+                gridHtml += `<div class="calendar-cell empty-cell"></div>`;
+            }
+
+            const isCurrentViewingMonth = (calendarYear === TODAY_YEAR && calendarMonth === TODAY_MONTH);
+
+            for (let day = 1; day <= daysInMonth; day++) {
+                const bucket = dayBuckets[day];
+                const heat = calculateHeatmapStyle(bucket.amount, effectiveMax);
+                const isToday = isCurrentViewingMonth && day === TODAY_DAY;
+
+                gridHtml += `
+                    <div class="calendar-cell" data-day="${day}" style="background: ${heat.background}; border-color: ${heat.borderColor}; box-shadow: ${heat.glow};">
+                        <div class="cell-top">
+                            <span class="cell-day-num">${String(day).padStart(2, '0')}</span>
+                            ${isToday ? '<span class="cell-today-pill">Hoje</span>' : ''}
+                            <span class="cell-inad-count">${bucket.count > 0 ? `${bucket.count} ${bucket.count === 1 ? 'parcela' : 'parcelas'}` : ''}</span>
+                        </div>
+                        <div class="cell-middle">
+                            <span class="cell-amount-label">Em Aberto</span>
+                            <span class="cell-amount-value" title="${formatCurrencyDetailed(bucket.amount)}">
+                                ${bucket.amount > 0 ? formatCurrencyBRL(bucket.amount) : 'R$ 0'}
+                            </span>
+                        </div>
+                        <div class="cell-bottom-bar">
+                            <div class="cell-bottom-fill" style="width: ${heat.progressPct}%; background: ${heat.fillColor};"></div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            daysGrid.innerHTML = gridHtml;
+
+            daysGrid.querySelectorAll('.calendar-cell:not(.empty-cell)').forEach(cell => {
+                cell.addEventListener('click', () => {
+                    const d = parseInt(cell.getAttribute('data-day'), 10);
+                    openDayModal(d);
+                });
+            });
+        }
+
+        function setupModal() {
+            const modal = document.getElementById('day-modal');
+            const closeBtn = document.getElementById('btn-close-modal');
+
+            if (closeBtn && modal) {
+                closeBtn.addEventListener('click', () => modal.classList.remove('open'));
+                modal.addEventListener('click', (e) => {
+                    if (e.target === modal) modal.classList.remove('open');
+                });
+            }
+
+            // Configuração do Modal de Miniatura dos Meses
+            const monthLabel = document.getElementById('calendar-month-label');
+            const yearModal = document.getElementById('year-overview-modal');
+            const closeYearBtn = document.getElementById('btn-close-overview-modal');
+            const prevYearBtn = document.getElementById('btn-overview-prev-year');
+            const nextYearBtn = document.getElementById('btn-overview-next-year');
+
+            if (monthLabel && yearModal) {
+                monthLabel.addEventListener('click', () => {
+                    overviewModalYear = calendarYear;
+                    renderMonthOverviewModal();
+                    yearModal.classList.add('open');
+                });
+            }
+
+            if (closeYearBtn && yearModal) {
+                closeYearBtn.addEventListener('click', () => yearModal.classList.remove('open'));
+            }
+
+            if (yearModal) {
+                yearModal.addEventListener('click', (e) => {
+                    if (e.target === yearModal) yearModal.classList.remove('open');
+                });
+            }
+
+            if (prevYearBtn) {
+                prevYearBtn.addEventListener('click', () => {
+                    overviewModalYear--;
+                    renderMonthOverviewModal();
+                });
+            }
+
+            if (nextYearBtn) {
+                nextYearBtn.addEventListener('click', () => {
+                    overviewModalYear++;
+                    renderMonthOverviewModal();
+                });
+            }
+
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    if (modal && modal.classList.contains('open')) modal.classList.remove('open');
+                    if (yearModal && yearModal.classList.contains('open')) yearModal.classList.remove('open');
+                }
+            });
+        }
+
+        function renderMonthOverviewModal() {
+            const yearLabel = document.getElementById('overview-year-label');
+            if (yearLabel) yearLabel.textContent = overviewModalYear;
+            const yearNavLabel = document.getElementById('overview-year-nav-label');
+            if (yearNavLabel) yearNavLabel.textContent = overviewModalYear;
+
+            const container = document.getElementById('months-mini-grid');
+            if (!container) return;
+            const yearModal = document.getElementById('year-overview-modal');
+
+            const hVal = document.getElementById('hunter-filter') ? document.getElementById('hunter-filter').value : 'all';
+            const rVal = document.getElementById('regional-filter') ? document.getElementById('regional-filter').value : 'all';
+            const hzVal = document.getElementById('horizonte-filter') ? document.getElementById('horizonte-filter').value : 'all';
+
+            // Filtra registros do ano do modal respeitando filtros globais
+            const yearRecords = dados2Parsed.filter(rec => {
+                if (rec.year !== overviewModalYear) return false;
+                if (hVal !== 'all' && rec.hunter !== hVal) return false;
+                if (rVal !== 'all' && rec.regional !== rVal) return false;
+                if (hzVal !== 'all' && rec.horizonteSigla !== hzVal) return false;
+                if (selectedFranchiseName && rec.cleanFranchise !== selectedFranchiseName) return false;
+                return true;
+            });
+
+            // Teto global anual compartilhado
+            const globalYearMaxDay = getYearMaxDayAmount(overviewModalYear);
+            const monthDaySums = {};
+
+            for (let m = 0; m < 12; m++) {
+                monthDaySums[m] = {};
+            }
+
+            yearRecords.forEach(rec => {
+                const m = rec.month;
+                const d = rec.day;
+                if (m !== null && d !== null) {
+                    if (!monthDaySums[m][d]) monthDaySums[m][d] = 0;
+                    monthDaySums[m][d] += rec.amount;
+                }
+            });
+
+            let html = '';
+
+            for (let m = 0; m < 12; m++) {
+                const daysInM = new Date(overviewModalYear, m + 1, 0).getDate();
+                const firstDayIdx = new Date(overviewModalYear, m, 1).getDay();
+                
+                let monthTotal = 0;
+                for (let d = 1; d <= daysInM; d++) {
+                    monthTotal += (monthDaySums[m][d] || 0);
+                }
+
+                const isCurrentActive = (calendarYear === overviewModalYear && calendarMonth === m);
+
+                let cellsHtml = '';
+                // Células vazias iniciais
+                for (let empty = 0; empty < firstDayIdx; empty++) {
+                    cellsHtml += `<div class="mini-day-cell empty"></div>`;
+                }
+
+                // Células dos dias com cor térmica
+                for (let day = 1; day <= daysInM; day++) {
+                    const dayAmount = monthDaySums[m][day] || 0;
+                    const heat = calculateHeatmapStyle(dayAmount, globalYearMaxDay);
+                    const isToday = (overviewModalYear === TODAY_YEAR && m === TODAY_MONTH && day === TODAY_DAY);
+
+                    const tooltip = `Dia ${String(day).padStart(2, '0')}/${String(m + 1).padStart(2, '0')}: ${formatCurrencyDetailed(dayAmount)}`;
+
+                    cellsHtml += `
+                        <div class="mini-day-cell ${isToday ? 'is-today' : ''}" 
+                             style="background: ${heat.solidColor}; color: ${heat.textColor}; border-color: ${heat.borderColor};"
+                             title="${tooltip}">
+                            ${day}
+                        </div>
+                    `;
+                }
+
+                html += `
+                    <div class="month-mini-card ${isCurrentActive ? 'current-active-month' : ''}" data-month="${m}">
+                        <div class="month-mini-top">
+                            <span class="month-mini-title">${monthNames[m]}</span>
+                            <span class="month-mini-amount">${monthTotal > 0 ? formatCurrencyBRL(monthTotal) : 'R$ 0'}</span>
+                        </div>
+                        <div class="month-mini-weekdays">
+                            <span class="month-mini-weekday-lbl">D</span>
+                            <span class="month-mini-weekday-lbl">S</span>
+                            <span class="month-mini-weekday-lbl">T</span>
+                            <span class="month-mini-weekday-lbl">Q</span>
+                            <span class="month-mini-weekday-lbl">Q</span>
+                            <span class="month-mini-weekday-lbl">S</span>
+                            <span class="month-mini-weekday-lbl">S</span>
+                        </div>
+                        <div class="month-mini-cells-grid">
+                            ${cellsHtml}
+                        </div>
+                    </div>
+                `;
+            }
+
+            container.innerHTML = html;
+
+            // Evento ao clicar em uma miniatura: seleciona o mês e fecha a miniatura
+            container.querySelectorAll('.month-mini-card').forEach(card => {
+                card.addEventListener('click', () => {
+                    const selectedM = parseInt(card.getAttribute('data-month'), 10);
+                    calendarYear = overviewModalYear;
+                    calendarMonth = selectedM;
+                    renderCalendarView();
+                    if (yearModal) yearModal.classList.remove('open');
+                });
+            });
+        }
+
+        function openDayModal(day) {
+            const bucket = currentDayBuckets[day];
+            if (!bucket) return;
+
+            const modal = document.getElementById('day-modal');
+            const dateStr = `${String(day).padStart(2, '0')}/${String(calendarMonth + 1).padStart(2, '0')}/${calendarYear}`;
+            document.getElementById('modal-date-label').textContent = `Vencimentos em Aberto: ${dateStr}`;
+
+            // Determina se a data do dia é >= hoje
+            const cellDate = new Date(calendarYear, calendarMonth, day, 0, 0, 0);
+            const todayRef = new Date(TODAY_YEAR, TODAY_MONTH, TODAY_DAY, 0, 0, 0);
+            const isGteToday = cellDate.getTime() >= todayRef.getTime();
+
+            // Card 1: Valor Total do Dia
+            // Se >= hoje o número deve estar em cinza, senão em branco
+            const totalValueEl = document.getElementById('modal-total-value');
+            totalValueEl.textContent = formatCurrencyDetailed(bucket.amount);
+            totalValueEl.style.color = isGteToday ? '#8c8c8c' : '#ffffff';
+
+            // Agrupa itens do dia por Franquia consolidando as parcelas
+            const distinctFranchisesSet = new Set(bucket.items.map(i => i.cleanFranchise));
+            const distinctFranchisesCount = distinctFranchisesSet.size;
+
+            // Card 2: Franquias
+            document.getElementById('modal-franchises-val').textContent = distinctFranchisesCount.toLocaleString('pt-BR');
+
+            // Card 3: Parcelas
+            document.getElementById('modal-installments-val').textContent = bucket.count.toLocaleString('pt-BR');
+
+            // Preenchimento da Tabela do Modal (Sem a coluna Status)
+            const tbody = document.getElementById('modal-table-body');
+            if (bucket.items.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="6" style="text-align: center; color: var(--text-muted); padding: 1.5rem;">Nenhum débito em aberto registrado para este dia no filtro atual.</td></tr>`;
+            } else {
+                const sortedItems = [...bucket.items].sort((a, b) => b.amount - a.amount);
+                const amountFontColor = isGteToday ? '#8c8c8c' : '#ffffff';
+
+                tbody.innerHTML = sortedItems.map(item => {
+                    return `
+                        <tr>
+                            <td style="font-weight: 700; color: #fff;" title="${item.cleanFranchise}">${item.cleanFranchise}</td>
+                            <td style="color: #bbb;">${item.hunter}</td>
+                            <td style="color: #bbb;">${item.regional}</td>
+                            <td style="color: #bbb;">${item.horizonteSigla}</td>
+                            <td class="text-right" style="color: #ffd700; font-weight: 700;">${item.count}</td>
+                            <td class="text-right col-valor" style="color: ${amountFontColor}; font-weight: 800; font-size: 0.78rem;">${formatCurrencyDetailed(item.amount)}</td>
+                        </tr>
+                    `;
+                }).join('');
+            }
+
+            modal.classList.add('open');
+        }
+
+        window.fallbackDados2Snippet = [
+            {"dt_vencimento":"1/10/2026","franchise":"V4 Company Barbosa Souza & Co.","sigla_regional":"MG2","horizonte":"H3 - Gerente - 150k a 450k","str_account":"Bruno Ferreira","qtd_vencimentos_em_aberto":"1","vlr_aberto_rateado":"800"},
+            {"dt_vencimento":"1/10/2026","franchise":"V4 Company Bilinski & Associados","sigla_regional":"SP3","horizonte":"H5 - Diretor / Regional","str_account":"Deborah Reynaldo","qtd_vencimentos_em_aberto":"2","vlr_aberto_rateado":"902,09"},
+            {"dt_vencimento":"1/10/2026","franchise":"V4 Company Carvalho & Co.","sigla_regional":"SP1","horizonte":"H5 - Diretor / Regional","str_account":"Gerson Xavier","qtd_vencimentos_em_aberto":"1","vlr_aberto_rateado":"2.400"},
+            {"dt_vencimento":"1/10/2026","franchise":"V4 Company Kuri & Associados","sigla_regional":"PR","horizonte":"H5 - Diretor / Regional","str_account":"Gerson Xavier","qtd_vencimentos_em_aberto":"1","vlr_aberto_rateado":"309,1"},
+            {"dt_vencimento":"1/10/2026","franchise":"V4 Company Martins Toniatti & Co.","sigla_regional":"SP1","horizonte":"H2 - Coordenadora - 60k a 150k","str_account":"Bruno Ferreira","qtd_vencimentos_em_aberto":"1","vlr_aberto_rateado":"667,29"},
+            {"dt_vencimento":"1/10/2026","franchise":"V4 Company Novaes & Co.","sigla_regional":"MG2","horizonte":"H3 - Gerente - 150k a 450k","str_account":"Bruno Ferreira","qtd_vencimentos_em_aberto":"2","vlr_aberto_rateado":"1.410,44"},
+            {"dt_vencimento":"1/10/2026","franchise":"V4 Company Nunes & Associados","sigla_regional":"NUNES","horizonte":"H5 - Diretor / Regional","str_account":"Gerson Xavier","qtd_vencimentos_em_aberto":"4","vlr_aberto_rateado":"2.700,41"},
+            {"dt_vencimento":"1/10/2026","franchise":"V4 Company Oxicore & Co.","sigla_regional":"SC","horizonte":"H4 - Gerente Maturada - 450k a 900k","str_account":"Deborah Reynaldo","qtd_vencimentos_em_aberto":"2","vlr_aberto_rateado":"1.788,21"},
+            {"dt_vencimento":"5/10/2026","franchise":"V4 Colli & Co.","sigla_regional":"COLLI","horizonte":"H5 - Diretor / Regional","str_account":"Gerson Xavier","qtd_vencimentos_em_aberto":"12","vlr_aberto_rateado":"13.027,63"},
+            {"dt_vencimento":"5/10/2026","franchise":"V4 Company Bayer & Associados","sigla_regional":"SP1","horizonte":"H4 - Gerente Maturada - 450k a 900k","str_account":"Izabela Mattano","qtd_vencimentos_em_aberto":"1","vlr_aberto_rateado":"15.000"},
+            {"dt_vencimento":"5/10/2026","franchise":"V4 Company Dittert & Meister Associados","sigla_regional":"SC","horizonte":"H2 - Coordenadora - 60k a 150k","str_account":"Deborah Reynaldo","qtd_vencimentos_em_aberto":"1","vlr_aberto_rateado":"7.946,17"},
+            {"dt_vencimento":"10/10/2026","franchise":"V4 Company Peretto & Associados","sigla_regional":"RS","horizonte":"H5 - Diretor / Regional","str_account":"Izabela Mattano","qtd_vencimentos_em_aberto":"9","vlr_aberto_rateado":"12.602,57"},
+            {"dt_vencimento":"14/10/2026","franchise":"V4 Company Canovas Mendes & Associados & Co.","sigla_regional":"MG2","horizonte":"H4 - Gerente Maturada - 450k a 900k","str_account":"Bruno Ferreira","qtd_vencimentos_em_aberto":"2","vlr_aberto_rateado":"9.335,46"},
+            {"dt_vencimento":"14/10/2026","franchise":"V4 Company Lima Bussolotti & Co","sigla_regional":"RJ","horizonte":"H3 - Gerente - 150k a 450k","str_account":"Mariana Giampaoli","qtd_vencimentos_em_aberto":"1","vlr_aberto_rateado":"16.860,93"},
+            {"dt_vencimento":"14/10/2026","franchise":"V4 Company Mundim & Associados","sigla_regional":"MG1","horizonte":"H4 - Gerente Maturada - 450k a 900k","str_account":"Deborah Reynaldo","qtd_vencimentos_em_aberto":"3","vlr_aberto_rateado":"7.900,47"},
+            {"dt_vencimento":"14/10/2026","franchise":"V4 Company Kloh Cerino & Associados","sigla_regional":"SC","horizonte":"H5 - Diretor / Regional","str_account":"Gerson Xavier","qtd_vencimentos_em_aberto":"1","vlr_aberto_rateado":"7.122,86"},
+            {"dt_vencimento":"15/10/2026","franchise":"V4 Colli & Co.","sigla_regional":"COLLI","horizonte":"H5 - Diretor / Regional","str_account":"Gerson Xavier","qtd_vencimentos_em_aberto":"15","vlr_aberto_rateado":"45.579,75"},
+            {"dt_vencimento":"15/10/2026","franchise":"V4 Company Carvalho & Co.","sigla_regional":"SP1","horizonte":"H5 - Diretor / Regional","str_account":"Gerson Xavier","qtd_vencimentos_em_aberto":"2","vlr_aberto_rateado":"3.465,6"},
+            {"dt_vencimento":"15/10/2026","franchise":"V4 Company Coimbra & Associados","sigla_regional":"MG2","horizonte":"H3 - Gerente - 150k a 450k","str_account":"Bruno Ferreira","qtd_vencimentos_em_aberto":"4","vlr_aberto_rateado":"6.363,31"},
+            {"dt_vencimento":"15/10/2026","franchise":"V4 Company Ferraz Piai & Co.","sigla_regional":"SP1","horizonte":"H5 - Diretor / Regional","str_account":"Izabela Mattano","qtd_vencimentos_em_aberto":"5","vlr_aberto_rateado":"7.525,61"},
+            {"dt_vencimento":"15/10/2026","franchise":"V4 Company Kloh Cerino & Associados","sigla_regional":"SC","horizonte":"H5 - Diretor / Regional","str_account":"Gerson Xavier","qtd_vencimentos_em_aberto":"6","vlr_aberto_rateado":"6.120,38"},
+            {"dt_vencimento":"15/10/2026","franchise":"V4 Company Nunes & Associados","sigla_regional":"NUNES","horizonte":"H5 - Diretor / Regional","str_account":"Gerson Xavier","qtd_vencimentos_em_aberto":"8","vlr_aberto_rateado":"7.716,89"},
+            {"dt_vencimento":"15/10/2026","franchise":"V4 Company Peretto & Associados","sigla_regional":"RS","horizonte":"H5 - Diretor / Regional","str_account":"Izabela Mattano","qtd_vencimentos_em_aberto":"8","vlr_aberto_rateado":"8.457,56"},
+            {"dt_vencimento":"15/10/2026","franchise":"V4 Company Ruston & Co.","sigla_regional":"SP3","horizonte":"H4 - Gerente Maturada - 450k a 900k","str_account":"Deborah Reynaldo","qtd_vencimentos_em_aberto":"5","vlr_aberto_rateado":"9.421,48"},
+            {"dt_vencimento":"15/10/2026","franchise":"V4 Company Telles Freire & Associados","sigla_regional":"NE","horizonte":"H5 - Diretor / Regional","str_account":"Mariana Giampaoli","qtd_vencimentos_em_aberto":"6","vlr_aberto_rateado":"5.606,82"},
+            {"dt_vencimento":"15/10/2026","franchise":"V4 Company Torque & Co","sigla_regional":"NE","horizonte":"H2 - Coordenadora - 60k a 150k","str_account":"Mariana Giampaoli","qtd_vencimentos_em_aberto":"4","vlr_aberto_rateado":"6.345,48"},
+            {"dt_vencimento":"15/10/2026","franchise":"V4 Company V4 NUNES CARRANO FONTES & Co.","sigla_regional":"MG2","horizonte":"H2 - Coordenadora - 60k a 150k","str_account":"","qtd_vencimentos_em_aberto":"6","vlr_aberto_rateado":"7.660,31"},
+            {"dt_vencimento":"15/10/2026","franchise":"V4 Company Victor, Basilio, Amaral & Co","sigla_regional":"SC","horizonte":"H3 - Gerente - 150k a 450k","str_account":"Deborah Reynaldo","qtd_vencimentos_em_aberto":"2","vlr_aberto_rateado":"3.842,88"},
+            {"dt_vencimento":"16/10/2026","franchise":"V4 Company Kloh Cerino & Associados","sigla_regional":"SC","horizonte":"H5 - Diretor / Regional","str_account":"Gerson Xavier","qtd_vencimentos_em_aberto":"3","vlr_aberto_rateado":"5.533,19"},
+            {"dt_vencimento":"16/10/2026","franchise":"V4 Company Oliveira Gasparetto & Co.","sigla_regional":"RS","horizonte":"H5 - Diretor / Regional","str_account":"","qtd_vencimentos_em_aberto":"1","vlr_aberto_rateado":"5.823,66"},
+            {"dt_vencimento":"16/10/2026","franchise":"V4 Company Piran & Co.","sigla_regional":"RJ","horizonte":"H3 - Gerente - 150k a 450k","str_account":"Mariana Giampaoli","qtd_vencimentos_em_aberto":"1","vlr_aberto_rateado":"6.689,88"},
+            {"dt_vencimento":"19/10/2026","franchise":"V4 Company Amaral & Associados","sigla_regional":"SP1","horizonte":"H5 - Diretor / Regional","str_account":"Bruno Ferreira","qtd_vencimentos_em_aberto":"2","vlr_aberto_rateado":"7.087,2"},
+            {"dt_vencimento":"19/10/2026","franchise":"V4 Company Calvão & Associados","sigla_regional":"RJ","horizonte":"H3 - Gerente - 150k a 450k","str_account":"Mariana Giampaoli","qtd_vencimentos_em_aberto":"3","vlr_aberto_rateado":"6.737,79"},
+            {"dt_vencimento":"19/10/2026","franchise":"V4 Company Mendez & Co.","sigla_regional":"SP1","horizonte":"H3 - Gerente - 150k a 450k","str_account":"Bruno Ferreira","qtd_vencimentos_em_aberto":"1","vlr_aberto_rateado":"6.114,85"},
+            {"dt_vencimento":"19/10/2026","franchise":"V4 Company Oliveira Gasparetto & Co.","sigla_regional":"RS","horizonte":"H5 - Diretor / Regional","str_account":"","qtd_vencimentos_em_aberto":"4","vlr_aberto_rateado":"9.296,51"},
+            {"dt_vencimento":"19/10/2026","franchise":"V4 Company Victor, Basilio, Amaral & Co","sigla_regional":"SC","horizonte":"H3 - Gerente - 150k a 450k","str_account":"Deborah Reynaldo","qtd_vencimentos_em_aberto":"2","vlr_aberto_rateado":"6.052,74"},
+            {"dt_vencimento":"20/10/2026","franchise":"ROSOLEM VERONEZE & CORDEIRO ASSESSORIA DE MARKETING LTDA","sigla_regional":"SP1","horizonte":"H4 - Gerente Maturada - 450k a 900k","str_account":"Bruno Ferreira","qtd_vencimentos_em_aberto":"8","vlr_aberto_rateado":"4.831,84"},
+            {"dt_vencimento":"20/10/2026","franchise":"V4 Colli & Co.","sigla_regional":"COLLI","horizonte":"H5 - Diretor / Regional","str_account":"Gerson Xavier","qtd_vencimentos_em_aberto":"25","vlr_aberto_rateado":"23.071,73"},
+            {"dt_vencimento":"20/10/2026","franchise":"V4 Company Amaral & Associados","sigla_regional":"SP1","horizonte":"H5 - Diretor / Regional","str_account":"Bruno Ferreira","qtd_vencimentos_em_aberto":"22","vlr_aberto_rateado":"16.856,04"},
+            {"dt_vencimento":"20/10/2026","franchise":"V4 Company Batista & Associados","sigla_regional":"SP3","horizonte":"H3 - Gerente - 150k a 450k","str_account":"Deborah Reynaldo","qtd_vencimentos_em_aberto":"4","vlr_aberto_rateado":"9.306,67"},
+            {"dt_vencimento":"20/10/2026","franchise":"V4 Company Bilinski & Associados","sigla_regional":"SP3","horizonte":"H5 - Diretor / Regional","str_account":"Deborah Reynaldo","qtd_vencimentos_em_aberto":"8","vlr_aberto_rateado":"8.412,22"},
+            {"dt_vencimento":"20/10/2026","franchise":"V4 Company Borges & Co.","sigla_regional":"SP1","horizonte":"H4 - Gerente Maturada - 450k a 900k","str_account":"Bruno Ferreira","qtd_vencimentos_em_aberto":"12","vlr_aberto_rateado":"9.116,53"},
+            {"dt_vencimento":"20/10/2026","franchise":"V4 Company Calvão & Associados","sigla_regional":"RJ","horizonte":"H3 - Gerente - 150k a 450k","str_account":"Mariana Giampaoli","qtd_vencimentos_em_aberto":"7","vlr_aberto_rateado":"8.364,29"},
+            {"dt_vencimento":"20/10/2026","franchise":"V4 Company Camargo Freitas & Associados","sigla_regional":"SP1","horizonte":"H5 - Diretor / Regional","str_account":"Bruno Ferreira","qtd_vencimentos_em_aberto":"21","vlr_aberto_rateado":"16.777,55"},
+            {"dt_vencimento":"20/10/2026","franchise":"V4 Company Carvalho & Co.","sigla_regional":"SP1","horizonte":"H5 - Diretor / Regional","str_account":"Gerson Xavier","qtd_vencimentos_em_aberto":"7","vlr_aberto_rateado":"13.375,76"},
+            {"dt_vencimento":"20/10/2026","franchise":"V4 Company Dantas Cardinot & Co.","sigla_regional":"NE","horizonte":"H2 - Coordenadora - 60k a 150k","str_account":"Mariana Giampaoli","qtd_vencimentos_em_aberto":"4","vlr_aberto_rateado":"6.589,62"},
+            {"dt_vencimento":"20/10/2026","franchise":"V4 Company Ferraz Piai & Co.","sigla_regional":"SP1","horizonte":"H5 - Diretor / Regional","str_account":"Izabela Mattano","qtd_vencimentos_em_aberto":"16","vlr_aberto_rateado":"10.273,92"},
+            {"dt_vencimento":"20/10/2026","franchise":"V4 Company Fron & Co.","sigla_regional":"SC","horizonte":"H3 - Gerente - 150k a 450k","str_account":"Deborah Reynaldo","qtd_vencimentos_em_aberto":"13","vlr_aberto_rateado":"11.154,07"},
+            {"dt_vencimento":"20/10/2026","franchise":"V4 Company KTM & Co.","sigla_regional":"SP3","horizonte":"H3 - Gerente - 150k a 450k","str_account":"Izabela Mattano","qtd_vencimentos_em_aberto":"8","vlr_aberto_rateado":"16.034,69"},
+            {"dt_vencimento":"20/10/2026","franchise":"V4 Company Kloh Cerino & Associados","sigla_regional":"SC","horizonte":"H5 - Diretor / Regional","str_account":"Gerson Xavier","qtd_vencimentos_em_aberto":"14","vlr_aberto_rateado":"17.355,83"},
+            {"dt_vencimento":"20/10/2026","franchise":"V4 Company Kuri & Associados","sigla_regional":"PR","horizonte":"H5 - Diretor / Regional","str_account":"Gerson Xavier","qtd_vencimentos_em_aberto":"15","vlr_aberto_rateado":"8.248,88"},
+            {"dt_vencimento":"20/10/2026","franchise":"V4 Company Lencina Oliveira & Associados","sigla_regional":"RS","horizonte":"H3 - Gerente - 150k a 450k","str_account":"Izabela Mattano","qtd_vencimentos_em_aberto":"10","vlr_aberto_rateado":"7.672,33"},
+            {"dt_vencimento":"20/10/2026","franchise":"V4 Company Mundim & Associados","sigla_regional":"MG1","horizonte":"H4 - Gerente Maturada - 450k a 900k","str_account":"Deborah Reynaldo","qtd_vencimentos_em_aberto":"21","vlr_aberto_rateado":"15.882,65"},
+            {"dt_vencimento":"20/10/2026","franchise":"V4 Company Muniz & Associados","sigla_regional":"SP3","horizonte":"H4 - Gerente Maturada - 450k a 900k","str_account":"Izabela Mattano","qtd_vencimentos_em_aberto":"7","vlr_aberto_rateado":"27.180,48"},
+            {"dt_vencimento":"20/10/2026","franchise":"V4 Company Novaes & Co.","sigla_regional":"MG2","horizonte":"H3 - Gerente - 150k a 450k","str_account":"Bruno Ferreira","qtd_vencimentos_em_aberto":"9","vlr_aberto_rateado":"7.908,42"},
+            {"dt_vencimento":"20/10/2026","franchise":"V4 Company Nunes & Associados","sigla_regional":"NUNES","horizonte":"H5 - Diretor / Regional","str_account":"Gerson Xavier","qtd_vencimentos_em_aberto":"18","vlr_aberto_rateado":"16.808,21"},
+            {"dt_vencimento":"20/10/2026","franchise":"V4 Company Oliveira Gasparetto & Co.","sigla_regional":"RS","horizonte":"H5 - Diretor / Regional","str_account":"","qtd_vencimentos_em_aberto":"15","vlr_aberto_rateado":"21.799,42"},
+            {"dt_vencimento":"20/10/2026","franchise":"V4 Company Peretto & Associados","sigla_regional":"RS","horizonte":"H5 - Diretor / Regional","str_account":"Izabela Mattano","qtd_vencimentos_em_aberto":"15","vlr_aberto_rateado":"20.489,12"},
+            {"dt_vencimento":"20/10/2026","franchise":"V4 Company Reis Andrade & Co.","sigla_regional":"SC","horizonte":"H3 - Gerente - 150k a 450k","str_account":"Deborah Reynaldo","qtd_vencimentos_em_aberto":"12","vlr_aberto_rateado":"12.090,01"},
+            {"dt_vencimento":"20/10/2026","franchise":"V4 Company Ruston & Co.","sigla_regional":"SP3","horizonte":"H4 - Gerente Maturada - 450k a 900k","str_account":"Deborah Reynaldo","qtd_vencimentos_em_aberto":"9","vlr_aberto_rateado":"8.229,52"},
+            {"dt_vencimento":"20/10/2026","franchise":"V4 Company Telles Freire & Associados","sigla_regional":"NE","horizonte":"H5 - Diretor / Regional","str_account":"Mariana Giampaoli","qtd_vencimentos_em_aberto":"6","vlr_aberto_rateado":"9.704,52"},
+            {"dt_vencimento":"20/10/2026","franchise":"V4 Company UDI & Co.","sigla_regional":"MG1","horizonte":"H4 - Gerente Maturada - 450k a 900k","str_account":"","qtd_vencimentos_em_aberto":"15","vlr_aberto_rateado":"14.777,72"},
+            {"dt_vencimento":"21/10/2026","franchise":"V4 Company Bilinski & Associados","sigla_regional":"SP3","horizonte":"H5 - Diretor / Regional","str_account":"Deborah Reynaldo","qtd_vencimentos_em_aberto":"5","vlr_aberto_rateado":"16.535,55"},
+            {"dt_vencimento":"25/10/2026","franchise":"V4 Company Kuri & Associados","sigla_regional":"PR","horizonte":"H5 - Diretor / Regional","str_account":"Gerson Xavier","qtd_vencimentos_em_aberto":"28","vlr_aberto_rateado":"18.309,68"},
+            {"dt_vencimento":"28/10/2026","franchise":"V4 Company Carvalho & Co.","sigla_regional":"SP1","horizonte":"H5 - Diretor / Regional","str_account":"Gerson Xavier","qtd_vencimentos_em_aberto":"10","vlr_aberto_rateado":"24.206,54"},
+            {"dt_vencimento":"5/11/2026","franchise":"V4 Colli & Co.","sigla_regional":"COLLI","horizonte":"H5 - Diretor / Regional","str_account":"Gerson Xavier","qtd_vencimentos_em_aberto":"24","vlr_aberto_rateado":"22.078,65"},
+            {"dt_vencimento":"10/11/2026","franchise":"V4 Company Carvalho & Co.","sigla_regional":"SP1","horizonte":"H5 - Diretor / Regional","str_account":"Gerson Xavier","qtd_vencimentos_em_aberto":"11","vlr_aberto_rateado":"35.040,52"},
+            {"dt_vencimento":"15/11/2026","franchise":"V4 Colli & Co.","sigla_regional":"COLLI","horizonte":"H5 - Diretor / Regional","str_account":"Gerson Xavier","qtd_vencimentos_em_aberto":"22","vlr_aberto_rateado":"49.325,86"},
+            {"dt_vencimento":"20/11/2026","franchise":"V4 Colli & Co.","sigla_regional":"COLLI","horizonte":"H5 - Diretor / Regional","str_account":"Gerson Xavier","qtd_vencimentos_em_aberto":"34","vlr_aberto_rateado":"33.965,06"}
+        ];
 
         document.addEventListener('DOMContentLoaded', loadData);
     </script>
