@@ -1247,10 +1247,11 @@
 
         let currentView = 'dias';
 
-        // Data de corte padrão (referência do dataset: 20 de Outubro de 2026)
-        const TODAY_DAY = 20;
-        const TODAY_MONTH = 9; // 0-indexed: 9 = Outubro
-        const TODAY_YEAR = 2026;
+        // Data de referência dinâmica (captura a data atual do dispositivo do usuário)
+        const _now = new Date();
+        const TODAY_DAY = _now.getDate();
+        const TODAY_MONTH = _now.getMonth(); // 0-indexed: 0 = Jan, 9 = Out, etc.
+        const TODAY_YEAR = _now.getFullYear();
 
         let calendarYear = TODAY_YEAR;
         let calendarMonth = TODAY_MONTH;
